@@ -97,7 +97,13 @@ fi
 #
 ### ### ### ### ### ### ### ### ###
 
-
+CHECKPKGSCREEN=$(pkg info | grep -c "screen")
+if [ "$CHECKPKGSCREEN" = "0" ]; then
+   : # dummy
+   : # dummy
+   echo "[ERROR] You need sysutils/screen"
+   exit 1
+fi
 
 # cat <<"PHP1">> /usr/local/etc/apache24/httpd.conf
 # #
@@ -108,7 +114,9 @@ fi
 #/ ports update
 EZJAIL=$(/usr/sbin/pkg info | grep -c "ezjail")
 if [ "$EZJAIL" = "1" ]; then
-   (/usr/local/bin/ezjail-admin update -P) & spinner $!
+    #// need non-interactive
+    #/ (/usr/local/bin/ezjail-admin update -P) & spinner $!
+    screen -d -m -S PORTUPDATE -- /usr/local/bin/ezjail-admin update -P
 fi
 
 
