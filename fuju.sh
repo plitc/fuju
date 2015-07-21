@@ -116,7 +116,7 @@ EZJAIL=$(/usr/sbin/pkg info | grep -c "ezjail")
 if [ "$EZJAIL" = "1" ]; then
     #// need non-interactive
     #/ (/usr/local/bin/ezjail-admin update -P) & spinner $!
-    screen -d -m -S PORTUPDATE -- /usr/local/bin/ezjail-admin update -P
+    screen -d -m -S PORTUPDATE -- /usr/local/bin/ezjail-admin update -P && sleep 20
 fi
 
 
