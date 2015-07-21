@@ -97,11 +97,7 @@ fi
 #
 ### ### ### ### ### ### ### ### ###
 
-#/ PKG
-# echo "---> PKG: update"
-#    (pkg update) & spinner $!
-# echo "---> PKG: upgrade"
-#   (pkg upgrade -y) & spinner $!
+
 
 # cat <<"PHP1">> /usr/local/etc/apache24/httpd.conf
 # #
@@ -111,7 +107,7 @@ fi
 
 #/ ports update
 EZJAIL=$(/usr/sbin/pkg info | grep -c "ezjail")
-if [ "EZJAIL" = "1" ]; then
+if [ "$EZJAIL" = "1" ]; then
    (/usr/local/bin/ezjail-admin update -P) & spinner $!
 fi
 
