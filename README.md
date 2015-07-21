@@ -55,6 +55,13 @@ Example
 =======
 * configure
 ```
+   @HOST
+
+   vi /etc/crontab
+
+   ### github.com/plitc/fuju // ###
+   00 6   * * *   root   /github/fuju/fuju.sh
+   ### // github.com/plitc/fuju ###
 ```
 
 * update

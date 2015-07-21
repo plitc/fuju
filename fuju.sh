@@ -90,7 +90,7 @@ if [ "$JAILED" = "0" ]; then
 else
    : # dummy
    : # dummy
-   echo "[ERROR] Run this script on the FreeBSD JAIL HOST"
+   echo "[ERROR] Run this script on the FreeBSD HOST"
    exit 1
 fi
 ### stage4 // ###
@@ -106,6 +106,14 @@ fi
 # cat <<"PHP1">> /usr/local/etc/apache24/httpd.conf
 # #
 # PHP1
+
+
+
+#/ ports update
+EZJAIL=$(/usr/sbin/pkg info | grep -c "ezjail")
+if [ "EZJAIL" = "1" ]; then
+   (/usr/local/bin/ezjail-admin update -P) & spinner $!
+fi
 
 
 
@@ -155,7 +163,7 @@ if [ "$JAILED" = "0" ]; then
 else
    : # dummy
    : # dummy
-   echo "[ERROR] Run this script on the FreeBSD JAIL HOST"
+   echo "[ERROR] Run this script on the FreeBSD HOST"
    exit 1
 fi
 ### stage4 // ###
