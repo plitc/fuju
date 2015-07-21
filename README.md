@@ -19,11 +19,12 @@ Dependencies
 ============
 * FreeBSD
 ```
-   portupgrade
+   sysutils/screen
+   ports-mgmt/portupgrade
 ```
 * Jail
 ```
-   portupgrade
+   ports-mgmt/portupgrade
 ```
 
 Features
