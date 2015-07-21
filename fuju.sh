@@ -246,8 +246,7 @@ esac
 *)
 printf "\033[1;31mWARNING: FreeBSD Unattended Jail Upgrades is experimental and its not ready for production. Do it at your own risk.\033[0m\n"
 echo "" # usage
-#/ DEV / echo "usage: $0 { configure | update | jail-upgrade }"
-echo "usage: $0 { configure }"
+echo "usage: $0 { configure | update | jail-upgrade }"
 ;;
 esac
 exit 0
