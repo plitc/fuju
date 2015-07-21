@@ -117,6 +117,8 @@ if [ "$EZJAIL" = "1" ]; then
     #// need non-interactive
     #/ (/usr/local/bin/ezjail-admin update -P) & spinner $!
     (screen -d -m -S PORTUPDATE -- /bin/sh -c '/usr/local/bin/ezjail-admin update -P; sleep 30') & spinner $!
+    #/ waiting
+    while true; do if [[ $(screen -list | grep -c "PORTUPDATE") == 0 ]]
 fi
 
 
