@@ -191,7 +191,9 @@ if [ "$FREENAS" = "1" ]; then
       echo "[ERROR] can't find ports jails"
       exit 1
    else
-      : # dummy
+      jls | egrep -v "Hostname" | awk '{print $4,$1}' > /tmp/fuju_freenas_raw.txt
+      awk 'NR==FNR {h[$1] = $2; next} {print $1,$2,$3,h[$1]}' /tmp/fuju_freenas_raw.txt /tmp/fuju_freenas_ready.txt | awk '{print $2}' > /tmp/fuju_freenas_run.txt
+
    fi
 fi
 #
