@@ -32,6 +32,7 @@
 
 ### stage0 // ###
 OSVERSION=$(uname)
+FREENAS=$(uname -a | grep -c "ixsystems.com")
 JAILED=$(sysctl -a | grep -c "security.jail.jailed: 1")
 MYNAME=$(whoami)
 #
@@ -114,8 +115,7 @@ if [ "$EZJAIL" = "1" ]; then
    (while true; do if [ "$(screen -list | grep -c "PORTUPDATE")" = "1" ]; then sleep 1; else exit 0; fi; done) & spinner $!
 else
    #// check freenas os
-   CHECKFREENAS=$(uname -a | grep -c "ixsystems.com")
-   if [ "$CHECKFREENAS" = "1" ]; then
+   if [ "$FREENAS" = "1" ]; then
       : # dummy
    else
       : # dummy
