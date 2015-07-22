@@ -25,11 +25,15 @@ Dependencies
 * Jail
    * [ports-mgmt/portupgrade](https://www.freshports.org/ports-mgmt/portupgrade/)
 
+* FreeNAS
+
 Features
 ========
 * configure
+   * ezjail-admin update -P on FreeBSD HOSTS
 
 * update
+   * pkg upgrade on FreeNAS HOSTS
 
 * jail-upgrade
 
@@ -57,7 +61,7 @@ Example
 =======
 * configure
 ```
-   @HOST
+   @HOST (FreeBSD)
 
    vi /etc/crontab
 
