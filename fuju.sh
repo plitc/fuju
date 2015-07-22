@@ -196,6 +196,7 @@ if [ "$FREENAS" = "1" ]; then
       zfs list | awk '{print $5,$1}' > /tmp/fuju_freenas_snap.txt
       awk 'NR==FNR {h[$1] = $2; next} {print $1,$2,$3,h[$1]}' /tmp/fuju_freenas_snap.txt /tmp/fuju_freenas_ready.txt | awk '{print $2}' > /tmp/fuju_freenas_snapshot.txt
       (cat /tmp/fuju_freenas_run.txt | xargs -L1 -I % jexec % /bin/sh -c '/bin/hostname; echo "--- SYNC // ---"; /bin/sync; echo "--- // SYNC ---"') & spinner $!
+      echo "" # dummy
       /bin/sync
       cat /tmp/fuju_freenas_snapshot.txt | xargs -L1 -I % zfs snapshot %@_FUJU_$DATE
 ### // SNAPSHOT ###
