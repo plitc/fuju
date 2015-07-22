@@ -41,6 +41,7 @@ Platform
 ========
 * FreeBSD
    * 10+
+
 * FreeNAS
    * 9.3+
 
