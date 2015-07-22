@@ -115,10 +115,9 @@ fi
 EZJAIL=$(/usr/sbin/pkg info | grep -c "ezjail")
 if [ "$EZJAIL" = "1" ]; then
     #// need non-interactive
-    #/ (/usr/local/bin/ezjail-admin update -P) & spinner $!
     (screen -d -m -S PORTUPDATE -- /bin/sh -c '/usr/local/bin/ezjail-admin update -P; sleep 30') & spinner $!
-    #/ waiting
-    while true; do if ["[" $(screen -list | grep -c "PORTUPDATE") == "0" "]"]; then sleep 1; else echo "---> Jail portsnap finished"; fi; done
+    #// waiting
+    (while true; do if [ "$(screen -list | grep -c "PORTUPDATE")" = "1" ]; then sleep 1; else exit 0; fi; done) & spinner $!
 fi
 
 
