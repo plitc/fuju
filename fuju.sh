@@ -196,9 +196,9 @@ if [ "$FREENAS" = "1" ]; then
       ### UPGRADE // ###
       #
       echo "" # dummy
-      cat /tmp/fuju_freenas_run.txt | xargs -L1 -I % jexec % pkg update
+      cat /tmp/fuju_freenas_run.txt | xargs -L1 -I % jexec % 'pkg update'
       echo "" # dummy
-      cat /tmp/fuju_freenas_run.txt | xargs -L1 -I % jexec % pkg upgrade -y
+      cat /tmp/fuju_freenas_run.txt | xargs -L1 -I % jexec % 'pkg upgrade -f'
       #
       ### // UPGRADE ###
    fi
