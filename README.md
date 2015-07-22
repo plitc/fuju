@@ -72,7 +72,6 @@ Example
 
    service cron restart
 ```
-
    * @HOST (FreeNAS)
 ```
    vi /etc/crontab
