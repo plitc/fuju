@@ -195,8 +195,7 @@ if [ "$FREENAS" = "1" ]; then
       awk 'NR==FNR {h[$1] = $2; next} {print $1,$2,$3,h[$1]}' /tmp/fuju_freenas_raw.txt /tmp/fuju_freenas_ready.txt | awk '{print $2}' > /tmp/fuju_freenas_run.txt
       ### UPGRADE // ###
       #
-      JAILLIST="/tmp/fuju_freenas_run.txt"
-      cat "$JAILLIST" | xargs -L1 -I % jexec % pkg update
+      cat /tmp/fuju_freenas_run.txt | xargs -L1 -I % jexec % pkg update
       #
       ### // UPGRADE ###
    fi
