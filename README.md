@@ -30,10 +30,10 @@ Dependencies
 Features
 ========
 * configure
-   * ezjail-admin update -P on FreeBSD HOSTS
+   * ezjail-admin update -P (FreeBSD)
 
 * update
-   * pkg upgrade on FreeNAS HOSTS
+   * pkg upgrade (FreeNAS)
 
 * jail-upgrade
 
