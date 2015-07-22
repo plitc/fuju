@@ -195,7 +195,10 @@ if [ "$FREENAS" = "1" ]; then
       awk 'NR==FNR {h[$1] = $2; next} {print $1,$2,$3,h[$1]}' /tmp/fuju_freenas_raw.txt /tmp/fuju_freenas_ready.txt | awk '{print $2}' > /tmp/fuju_freenas_run.txt
       ### UPGRADE // ###
       #
+      echo "" # dummy
       cat /tmp/fuju_freenas_run.txt | xargs -L1 -I % jexec % pkg update
+      echo "" # dummy
+      cat /tmp/fuju_freenas_run.txt | xargs -L1 -I % jexec % pkg upgrade -y
       #
       ### // UPGRADE ###
    fi
