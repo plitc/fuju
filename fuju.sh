@@ -191,15 +191,18 @@ if [ "$FREENAS" = "1" ]; then
    else
       jls | egrep -v "Hostname" | awk '{print $4,$1}' > /tmp/fuju_freenas_raw.txt
       awk 'NR==FNR {h[$1] = $2; next} {print $1,$2,$3,h[$1]}' /tmp/fuju_freenas_raw.txt /tmp/fuju_freenas_ready.txt | awk '{print $2}' > /tmp/fuju_freenas_run.txt
-      ### UPGRADE // ###
-      #
+### SNAPSHOT // ###
+      zfs list | awk '{print $5,$1}' > /tmp/fuju_freenas_snap.txt
+      awk 'NR==FNR {h[$1] = $2; next} {print $1,$2,$3,h[$1]}' /tmp/fuju_freenas_snap.txt /tmp/fuju_freenas_ready.txt | awk '{print $2}' > /tmp/fuju_freenas_snapshot.txt
+### // SNAPSHOT ###
+
+### UPGRADE // ###
       echo "" # dummy
       (cat /tmp/fuju_freenas_run.txt | xargs -L1 -I % jexec % /bin/sh -c '/bin/hostname; echo "--- START ---"; /usr/sbin/pkg update; echo "--- END ---"') & spinner $!
       echo "" # dummy
       (cat /tmp/fuju_freenas_run.txt | xargs -L1 -I % jexec % /bin/sh -c '/bin/hostname; echo "--- START ---"; /usr/sbin/pkg upgrade -y; echo "--- END ---"') & spinner $!
       echo "" # dummy
-      #
-      ### // UPGRADE ###
+### // UPGRADE ###
    fi
 fi
 #
