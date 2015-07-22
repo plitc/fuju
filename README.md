@@ -65,7 +65,7 @@ Example
    vi /etc/crontab
 
    ### github.com/plitc/fuju // ###
-   00 6   * * *   root   /github/fuju/fuju.sh
+   00      6       *       *       *       root    /github/fuju/fuju.sh
    ### // github.com/plitc/fuju ###
 
    service cron restart
