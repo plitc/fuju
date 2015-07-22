@@ -115,7 +115,7 @@ if [ "$EZJAIL" = "1" ]; then
 else
    #// check freenas os
    CHECKFREENAS=$(uname -a | grep -c "ixsystems.com")
-   if [ "$CHECKFREENAS" = "1"; then
+   if [ "$CHECKFREENAS" = "1" ]; then
       : # dummy
    else
       : # dummy
