@@ -196,9 +196,9 @@ if [ "$FREENAS" = "1" ]; then
       ### UPGRADE // ###
       #
       echo "" # dummy
-      (cat /tmp/fuju_freenas_run.txt | xargs -L1 -I % jexec % /bin/sh -c '/bin/hostname; echo ""; /usr/sbin/pkg update') & spinner $!
+      (cat /tmp/fuju_freenas_run.txt | xargs -L1 -I % jexec % /bin/sh -c '/bin/echo "JAIL: $(/bin/hostname)"; echo ""; /usr/sbin/pkg update') & spinner $!
       echo "" # dummy
-      (cat /tmp/fuju_freenas_run.txt | xargs -L1 -I % jexec % /bin/sh -c '/bin/hostname; echo ""; /usr/sbin/pkg upgrade -y') & spinner $!
+      (cat /tmp/fuju_freenas_run.txt | xargs -L1 -I % jexec % /bin/sh -c '/bin/echo "JAIL: $(/bin/hostname)"; echo ""; /usr/sbin/pkg upgrade -y') & spinner $!
       echo "" # dummy
       #
       ### // UPGRADE ###
