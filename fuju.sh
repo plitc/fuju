@@ -105,19 +105,23 @@ if [ "$CHECKPKGSCREEN" = "0" ]; then
    exit 1
 fi
 
-# cat <<"PHP1">> /usr/local/etc/apache24/httpd.conf
-# #
-# PHP1
-
-
-
-#/ ports update
+#/ jail portsnap update
 EZJAIL=$(/usr/sbin/pkg info | grep -c "ezjail")
 if [ "$EZJAIL" = "1" ]; then
-    #// need non-interactive
-    (screen -d -m -S PORTUPDATE -- /bin/sh -c '/usr/local/bin/ezjail-admin update -P; sleep 30') & spinner $!
-    #// waiting
-    (while true; do if [ "$(screen -list | grep -c "PORTUPDATE")" = "1" ]; then sleep 1; else exit 0; fi; done) & spinner $!
+   #// need non-interactive
+   (screen -d -m -S PORTUPDATE -- /bin/sh -c '/usr/local/bin/ezjail-admin update -P') & spinner $!
+   #// waiting
+   (while true; do if [ "$(screen -list | grep -c "PORTUPDATE")" = "1" ]; then sleep 1; else exit 0; fi; done) & spinner $!
+else
+   #// check freenas os
+   CHECKFREENAS=$(uname -a | grep -c "ixsystems.com")
+   if [ "$CHECKFREENAS" = "1"; then
+      : # dummy
+   else
+      : # dummy
+      echo "[ERROR] Environment = unknown"
+      exit 1
+   fi
 fi
 
 
