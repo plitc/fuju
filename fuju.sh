@@ -198,7 +198,8 @@ if [ "$FREENAS" = "1" ]; then
       echo "" # dummy
       (cat /tmp/fuju_freenas_run.txt | xargs -L1 -I % jexec % /bin/sh -c "/usr/sbin/pkg update") & spinner $!
       echo "" # dummy
-      (cat /tmp/fuju_freenas_run.txt | xargs -L1 -I % jexec % /bin/sh -c "/usr/sbin/pkg upgrade -f") & spinner $!
+      (cat /tmp/fuju_freenas_run.txt | xargs -L1 -I % jexec % /bin/sh -c "/usr/sbin/pkg upgrade -y") & spinner $!
+      echo "" # dummy
       #
       ### // UPGRADE ###
    fi
