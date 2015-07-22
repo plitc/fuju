@@ -60,14 +60,15 @@ Usage
 Example
 =======
 * configure
+   * @HOST (FreeBSD/FreeNAS)
 ```
-   @HOST (FreeBSD)
-
    vi /etc/crontab
 
    ### github.com/plitc/fuju // ###
    00 6   * * *   root   /github/fuju/fuju.sh
    ### // github.com/plitc/fuju ###
+
+   service cron restart
 ```
 
 * update
