@@ -98,7 +98,7 @@ fi
 #
 ### ### ### ### ### ### ### ### ###
 
-CHECKPKGSCREEN=$(pkg info | grep -c "screen")
+CHECKPKGSCREEN=$(pkg info | grep -c "screen-")
 if [ "$CHECKPKGSCREEN" = "0" ]; then
    : # dummy
    : # dummy

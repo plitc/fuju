@@ -19,12 +19,13 @@ Dependencies
 ============
 * FreeBSD
 ```
-   sysutils/screen
-   ports-mgmt/portupgrade
+   [sysutils/ezjail](https://www.freshports.org/sysutils/ezjail/)
+   [sysutils/screen](https://www.freshports.org/sysutils/screen/)
+   [ports-mgmt/portupgrade](https://www.freshports.org/ports-mgmt/portupgrade/)
 ```
 * Jail
 ```
-   ports-mgmt/portupgrade
+   [ports-mgmt/portupgrade](https://www.freshports.org/ports-mgmt/portupgrade/)
 ```
 
 Features
@@ -43,6 +44,8 @@ Platform
 ========
 * FreeBSD
    * 10+
+* FreeNAS
+   * 9.3+
 
 Usage
 =====
