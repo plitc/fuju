@@ -35,6 +35,7 @@ Features
 * update
    * pkg upgrade (FreeNAS)
    * avoid VirtualBox / Plugin Jails (FreeNAS)
+   * create zfs snapshots before jail upgrade (FreeNAS)
 
 * jail-upgrade
 

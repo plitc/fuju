@@ -35,6 +35,7 @@ OSVERSION=$(uname)
 FREENAS=$(uname -a | grep -c "ixsystems.com")
 JAILED=$(sysctl -a | grep -c "security.jail.jailed: 1")
 MYNAME=$(whoami)
+DATE=$(date +%Y%m%d-%H%M)
 #
 PRG="$0"
 ##/ need this for relative symlinks
@@ -64,7 +65,7 @@ spinner()
 #
 #/ function cleanup tmp
 cleanup(){
-   rm -rf /etc/fuju/tmp/*
+   rm -rf /tmp/fuju_freenas*
 }
 ### // stage0 ###
 
@@ -194,6 +195,7 @@ if [ "$FREENAS" = "1" ]; then
 ### SNAPSHOT // ###
       zfs list | awk '{print $5,$1}' > /tmp/fuju_freenas_snap.txt
       awk 'NR==FNR {h[$1] = $2; next} {print $1,$2,$3,h[$1]}' /tmp/fuju_freenas_snap.txt /tmp/fuju_freenas_ready.txt | awk '{print $2}' > /tmp/fuju_freenas_snapshot.txt
+      cat /tmp/fuju_freenas_snapshot.txt | xargs -L1 -I % zfs snapshot %@_FUJU_$DATE
 ### // SNAPSHOT ###
 
 ### UPGRADE // ###
@@ -211,7 +213,7 @@ fi
 
 
 ### ### ### ### ### ### ### ### ###
-#/ cleanup
+cleanup
 ### ### ### ### ### ### ### ### ###
 echo "" # printf
 printf "\033[1;31mFuJu JAIL updates finished.\033[0m\n"
