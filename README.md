@@ -34,6 +34,7 @@ Features
 
 * update
    * pkg upgrade (FreeNAS)
+   * avoid VirtualBox / Plugin Jails (FreeNAS)
 
 * jail-upgrade
 
