@@ -138,6 +138,14 @@ fi
 jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % cp -f "$ADIR"/fuju.sh %/root
 jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % chmod 0755 %/root/fuju.sh
 
+CHECKEXCLUDECONF=$(grep -c "" "$ADIR"/exclude.conf)
+if [ "$CHECKEXCLUDECONF" = "0" ]; then
+   : # dummy
+else
+   GETEXCLUDECONF=$(cat "$ADIR"/exclude.conf)
+   jls | awk '{print $4}' | egrep -v "Hostname" | egrep -v "$GETEXCLUDECONF" | xargs -L1 -I % echo "%"
+fi
+
 
 
 ### ### ### ### ### ### ### ### ###
