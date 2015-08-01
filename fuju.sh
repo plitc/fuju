@@ -99,6 +99,15 @@ fi
 #
 ### ### ### ### ### ### ### ### ###
 
+if [ "$FREENAS" = "1" ]; then
+   : # dummy
+   : # dummy
+   echo "[ERROR] configure Option isn't for FreeNAS"
+   exit 1
+else
+   : # dummy
+fi
+
 CHECKPKGSCREEN=$(pkg info | grep -c "screen-")
 if [ "$CHECKPKGSCREEN" = "0" ]; then
    : # dummy
@@ -125,8 +134,11 @@ else
    fi
 fi
 
-echo "$DIR"
-echo "$ADIR"
+#/ deploying subscripts
+jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % cp -f "$ADIR"/fuju.sh %/root
+jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % chmod 0755 %/root/fuju.sh
+
+
 
 ### ### ### ### ### ### ### ### ###
 #/ cleanup
