@@ -140,10 +140,14 @@ jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % chmod 0755 %/root/
 
 CHECKEXCLUDECONF=$(grep -c "" "$ADIR"/exclude.conf)
 if [ "$CHECKEXCLUDECONF" = "0" ]; then
-   : # dummy
+   echo "--- --- ---"
+   jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % echo "%"
+   echo "--- --- ---"
 else
    GETEXCLUDECONF=$(cat "$ADIR"/exclude.conf)
+   echo "--- --- ---"
    jls | awk '{print $4}' | egrep -v "Hostname" | egrep -v "$GETEXCLUDECONF" | xargs -L1 -I % echo "%"
+   echo "--- --- ---"
 fi
 
 
