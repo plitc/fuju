@@ -218,6 +218,8 @@ else
       echo "" >> /tmp/fuju_mail_error.txt
       jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % find % -name "FUJU-ERROR" -maxdepth 1 | sed 's/\/FUJU-ERROR//' >> /tmp/    fuju_mail_error.txt
       echo "--- --- --- --- --- --- --- --- ---" >> /tmp/fuju_mail_error.txt
+      echo "" >> /tmp/fuju_mail_error.txt
+      echo "unexpected errors (please run portupgrade -a manually and remove the lock files /FUJU-LOCKED and may be /FUJU-ERROR)" >> /tmp/fuju_mail_error.txt
       mail -s "FreeBSD Unattended Jail Upgrades: ERROR Jails!" root < /tmp/fuju_mail_error.txt
       rm -f /tmp/fuju_mail_error.txt
    fi
