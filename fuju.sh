@@ -141,14 +141,14 @@ jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % chmod 0755 %/root/
 
 CHECKEXCLUDECONF=$(grep -c "" "$ADIR"/exclude.conf)
 if [ "$CHECKEXCLUDECONF" = "0" ]; then
-   echo "--- --- ---"
+   #/ echo "--- --- ---"
    jls | awk '{print $4}' | egrep -v "Hostname" | sed 's/.*\///' | xargs -L1 -I % screen -d -m -S "%" -- /usr/local/bin/ezjail-admin console -e "/root/fuju.sh jail-upgrade" "%"
-   echo "--- --- ---"
+   #/ echo "--- --- ---"
 else
    GETEXCLUDECONF=$(cat "$ADIR"/exclude.conf)
-   echo "--- --- ---"
+   #/ echo "--- --- ---"
    jls | awk '{print $4}' | egrep -v "Hostname" | egrep -v "$GETEXCLUDECONF" | sed 's/.*\///' | xargs -L1 -I % screen -d -m -S "%" -- /usr/local/bin/ezjail-admin console -e "/root/fuju.sh jail-upgrade" "%"
-   echo "--- --- ---"
+   #/ echo "--- --- ---"
 fi
 
 
