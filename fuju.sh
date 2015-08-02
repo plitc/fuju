@@ -327,21 +327,29 @@ fi
 CHECKLOCKFILE=$(ls -allt / | grep -c "FUJU-LOCKED")
 if [ "$CHECKLOCKFILE" = "0" ]
 then
-   touch /FUJU-LOCKED
-   echo '< ---- START ---- >'
-   /usr/sbin/pkg version -l "<"
-   #/ /usr/bin/logger "FreeBSD Unattended Jail Upgrades: prepare for $(/usr/sbin/pkg version -l "<" | awk '{print $1}')"
-   /usr/bin/logger "FreeBSD Unattended Jail Upgrades: prepare for $(if [ -z "$(/usr/sbin/pkg version -l "<" | awk '{print $1}')" ]; then echo "nothing"; else echo "$(/usr/sbin/pkg version -l "<" | awk '{print $1}')"; fi)"
-   echo '< ---- ---- ---- >'
-   /usr/local/sbin/portupgrade -a
-   if [ $? -eq 0 ]
+   CHECKCARPJAIL=$(/sbin/ifconfig | grep -c "carp")
+   if [ "$CHECKCARPJAIL" = "0"]
    then
-       /usr/bin/logger "FreeBSD Unattended Jail Upgrades: finished"
-      rm -f /FUJU-LOCKED
+      #/ non-carp jail
+      touch /FUJU-LOCKED
+      echo '< ---- START ---- >'
+      /usr/sbin/pkg version -l "<"
+      #/ /usr/bin/logger "FreeBSD Unattended Jail Upgrades: prepare for $(/usr/sbin/pkg version -l "<" | awk '{print $1}')"
+      /usr/bin/logger "FreeBSD Unattended Jail Upgrades: prepare for $(if [ -z "$(/usr/sbin/pkg version -l "<" | awk '{print $1}')" ]; then echo "nothing"; else echo "$(/usr/sbin/pkg version -l "<" | awk '{print $1}')"; fi)"
+      echo '< ---- ---- ---- >'
+      /usr/local/sbin/portupgrade -a
+      if [ $? -eq 0 ]
+      then
+         /usr/bin/logger "FreeBSD Unattended Jail Upgrades: finished"
+         rm -f /FUJU-LOCKED
+      else
+         /usr/bin/logger "[ERROR] FreeBSD Unattended Jail Upgrades: unexpected error (please run portupgrade -a manually and remove the lock file /FUJU-LOCKED)"
+      fi
+      echo '< ---- END ---- >'
    else
-      /usr/bin/logger "[ERROR] FreeBSD Unattended Jail Upgrades: unexpected error (please run portupgrade -a manually and remove the lock file /FUJU-LOCKED)"
+      #/ carp jail
+      : # dummy
    fi
-   echo '< ---- END ---- >'
 else
    /usr/bin/logger "[ERROR] FreeBSD Unattended Jail Upgrades: always running"
    echo "[ERROR] FreeBSD Unattended Jail Upgrades: always running"
