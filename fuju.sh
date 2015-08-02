@@ -177,10 +177,10 @@ else
    screen -ls
    echo "" # dummy
    #/ send email notification
-   CHECKPKGSSMTP=$(pkg info | grep -c "ssmtp")
-   if [ "$CHECKPKGSSMTP" = "1" ]
+   CHECKPKGSSMTP1=$(pkg info | grep -c "ssmtp")
+   if [ "$CHECKPKGSSMTP1" = "1" ]
    then
-      #/ jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % find % -name "FUJU-DIALOG" -maxdepth 1 | sed 's/\/FUJU-DIALOG//' | mail -s "FreeBSD Unattended Jail Upgrades: (partial) finished!" root
+      #// normal notification
       echo "" > /tmp/fuju_mail.txt
       echo "need manually dialog input:" >> /tmp/fuju_mail.txt
       echo "" >> /tmp/fuju_mail.txt
@@ -195,6 +195,35 @@ else
 fi
 #
 ### // check DIALOG ###
+
+### check ERROR // ###
+#
+CHECKJAILERROR=$(jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % find % -name "FUJU-ERROR" -maxdepth 1 | sed 's/\/FUJU-ERROR//' | grep -c "")
+if [ "$CHECKJAILERROR" = "0" ]
+then
+   : # dummy
+else
+   echo "" # dummy
+   echo "[WARNING] some jails got an error in the last upgrade process"
+   echo "" # dummy
+   jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % find % -name "FUJU-ERROR" -maxdepth 1 | sed 's/\/FUJU-ERROR//'
+   echo "" # dummy
+   #/ send email notification on error
+   CHECKPKGSSMTP2=$(pkg info | grep -c "ssmtp")
+   if [ "$CHECKPKGSSMTP2" = "1" ]
+   then
+      #// error notification
+      echo "" > /tmp/fuju_mail_error.txt
+      echo "[ERROR] Jails:" >> /tmp/fuju_mail_error.txt
+      echo "" >> /tmp/fuju_mail_error.txt
+      jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % find % -name "FUJU-ERROR" -maxdepth 1 | sed 's/\/FUJU-ERROR//' >> /tmp/    fuju_mail_error.txt
+      echo "--- --- --- --- --- --- --- --- ---" >> /tmp/fuju_mail_error.txt
+      mail -s "FreeBSD Unattended Jail Upgrades: ERROR Jails!" root < /tmp/fuju_mail_error.txt
+      rm -f /tmp/fuju_mail_error.txt
+   fi
+fi
+#
+### // check ERROR ###
 
 
 
@@ -392,6 +421,7 @@ then
       if [ $? -eq 0 ]
       then
          /usr/bin/logger "FreeBSD Unattended Jail Upgrades: finished"
+         rm -f /FUJU-ERROR
          rm -f /FUJU-LOCKED
          rm -f /FUJU-DIALOG
          #// restart jail services
@@ -404,7 +434,8 @@ then
             /usr/sbin/service -e | grep '/usr/local/etc/rc.d' | sed 's/\/usr\/local\/etc\/rc.d\///' | xargs -L1 -I % service % restart
          fi
       else
-         /usr/bin/logger "[ERROR] FreeBSD Unattended Jail Upgrades: unexpected error (please run portupgrade -a manually and remove the lock file /FUJU-LOCKED)"
+         touch /FUJU-ERROR
+         /usr/bin/logger "[ERROR] FreeBSD Unattended Jail Upgrades: unexpected error (please run portupgrade -a manually and remove the lock files /FUJU-LOCKED and may be /FUJU-ERROR)"
       fi
       echo '< ---- END ---- >'
    else
