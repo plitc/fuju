@@ -418,6 +418,7 @@ then
       then
          : # dummy
          #// no updates necessary
+         /usr/bin/logger "FreeBSD Unattended Jail Upgrades: nothing to do"
       else
          touch /FUJU-LOCKED
          echo '< ---- START ---- >'
