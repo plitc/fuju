@@ -70,7 +70,7 @@ cleanup(){
 ### // stage0 ###
 
 case "$1" in
-'configure')
+'freebsd')
 ### stage1 // ###
 case $OSVERSION in
 FreeBSD)
@@ -102,7 +102,7 @@ fi
 if [ "$FREENAS" = "1" ]; then
    : # dummy
    : # dummy
-   echo "[ERROR] configure Option isn't for FreeNAS"
+   echo "[ERROR] freebsd Option isn't for FreeNAS"
    exit 1
 else
    : # dummy
@@ -142,12 +142,12 @@ jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % chmod 0755 %/root/
 CHECKEXCLUDECONF=$(grep -c "" "$ADIR"/exclude.conf)
 if [ "$CHECKEXCLUDECONF" = "0" ]; then
    #/ echo "--- --- ---"
-   jls | awk '{print $4}' | egrep -v "Hostname" | sed 's/.*\///' | xargs -L1 -I % screen -d -m -S "%" -- /usr/local/bin/ezjail-admin console -e "/root/fuju.sh jail-upgrade" "%"
+   jls | awk '{print $4}' | egrep -v "Hostname" | sed 's/.*\///' | xargs -L1 -I % screen -d -m -S "%" -- /usr/local/bin/ezjail-admin console -e "/root/fuju.sh freebsd-jail" "%"
    #/ echo "--- --- ---"
 else
    GETEXCLUDECONF=$(cat "$ADIR"/exclude.conf)
    #/ echo "--- --- ---"
-   jls | awk '{print $4}' | egrep -v "Hostname" | egrep -v "$GETEXCLUDECONF" | sed 's/.*\///' | xargs -L1 -I % screen -d -m -S "%" -- /usr/local/bin/ezjail-admin console -e "/root/fuju.sh jail-upgrade" "%"
+   jls | awk '{print $4}' | egrep -v "Hostname" | egrep -v "$GETEXCLUDECONF" | sed 's/.*\///' | xargs -L1 -I % screen -d -m -S "%" -- /usr/local/bin/ezjail-admin console -e "/root/fuju.sh freebsd-jail" "%"
    #/ echo "--- --- ---"
 fi
 
@@ -157,7 +157,7 @@ fi
 #/ cleanup
 ### ### ### ### ### ### ### ### ###
 echo "" # printf
-printf "\033[1;31mFuJu HOST configuration finished.\033[0m\n"
+printf "\033[1;31mFuJu for FreeBSD finished.\033[0m\n"
 ### ### ### ### ### ### ### ### ###
 #
 ### // stage4 ###
@@ -177,7 +177,7 @@ esac
 #
 ### // stage1 ###
 ;;
-'update')
+'freenas')
 ### stage1 // ###
 case $OSVERSION in
 FreeBSD)
@@ -247,7 +247,7 @@ fi
 cleanup
 ### ### ### ### ### ### ### ### ###
 echo "" # printf
-printf "\033[1;31mFuJu JAIL updates finished.\033[0m\n"
+printf "\033[1;31mFuJu for FreeNAS finished.\033[0m\n"
 ### ### ### ### ### ### ### ### ###
 #
 ### // stage4 ###
@@ -267,7 +267,7 @@ esac
 #
 ### // stage1 ###
 ;;
-'jail-upgrade')
+'freebsd-jail')
 ### stage1 // ###
 case $OSVERSION in
 FreeBSD)
@@ -299,7 +299,7 @@ fi
 if [ "$FREENAS" = "1" ]; then
    : # dummy
    : # dummy
-   echo "[ERROR] jail-upgrade Option isn't for FreeNAS"
+   echo "[ERROR] freebsd-jail Option isn't for FreeNAS"
    exit 1
 else
    : # dummy
@@ -338,7 +338,7 @@ fi
 #/ cleanup
 ### ### ### ### ### ### ### ### ###
 echo "" # printf
-printf "\033[1;31mFuJu JAIL upgrades finished.\033[0m\n"
+printf "\033[1;31mFuJu FreeBSD JAIL upgrades finished.\033[0m\n"
 ### ### ### ### ### ### ### ### ###
 #
 ### // stage4 ###
@@ -361,7 +361,7 @@ esac
 *)
 printf "\033[1;31mWARNING: FreeBSD Unattended Jail Upgrades is experimental and its not ready for production. Do it at your own risk.\033[0m\n"
 echo "" # usage
-echo "usage: $0 { configure | update | jail-upgrade }"
+echo "usage: $0 { freebsd | freenas | freebsd-jail }"
 ;;
 esac
 exit 0

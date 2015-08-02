@@ -29,28 +29,30 @@ Dependencies
 
 Features
 ========
-* configure
-   * ezjail-admin update -P (FreeBSD)
-   * deploying subscripts (FreeBSD)
+* freebsd
+   * ezjail-admin update -P
+   * deploying subscripts
 
-* update
-   * pkg upgrade (FreeNAS)
-   * avoid VirtualBox / Plugin Jails (FreeNAS)
-   * create zfs snapshots before jail upgrading (FreeNAS)
+* freenas
+   * pkg upgrade
+   * avoid VirtualBox / Plugin Jails
+   * create zfs snapshots before jail upgrading
 
-* jail-upgrade
-       * execute pkg version -l (FreeBSD)
-       * execute portupgrade -a (FreeBSD)
-       * write logger info (FreeBSD)
+* freebsd-jail
+       * execute pkg version -l
+       * execute portupgrade -a
+       * write logger info
 
 * exclude.conf
    * ignores the listed jails
 
 usage:
 ```
-   on FreeBSD: ./fuju.sh configure
+   (on FreeBSD):
+               # ./fuju.sh freebsd
 
-   on FreeNAS: ./fuju.sh update
+   (on FreeNAS):
+               # ./fuju.sh freenas
 ```
 
 Platform
@@ -66,39 +68,31 @@ Usage
 ```
    WARNING: FreeBSD Unattended Jail Upgrades is experimental and its not ready for production. Do it at your own risk.
 
-   # usage: ./fuju.sh { configure | update | jail-upgrade }
+   # usage: ./fuju.sh { freebsd | freenas | freebsd-jail }
 ```
 
 Example
 =======
-* configure
-   * @HOST (FreeBSD)
+* cronjob (FreeBSD)
 ```
    vi /etc/crontab
 
    ### github.com/plitc/fuju // ###
-   00      6       *       *       *       root    /github/fuju/fuju.sh configure > /var/log/fuju.log
-   ### // github.com/plitc/fuju ###
-
-   service cron restart
-```
-   * @HOST (FreeNAS)
-```
-   vi /etc/crontab
-
-   ### github.com/plitc/fuju // ###
-   00      6       *       *       *       root    /github/fuju/fuju.sh update > /var/log/fuju.log
+   00      6       *       *       *       root    /github/fuju/fuju.sh freebsd > /var/log/fuju.log
    ### // github.com/plitc/fuju ###
 
    service cron restart
 ```
 
-* update
+* cronjob (FreeNAS)
 ```
-```
+   vi /etc/crontab
 
-* jail-upgrade
-```
+   ### github.com/plitc/fuju // ###
+   00      6       *       *       *       root    /github/fuju/fuju.sh freenas > /var/log/fuju.log
+   ### // github.com/plitc/fuju ###
+
+   service cron restart
 ```
 
 Diagram
@@ -115,5 +109,7 @@ Errata
 
 TODO
 ====
-* 21.07.2015:
+* 02.08.2015: carp jail support for freebsd jails
+* 02.08.2015: zfs snapshot support for freebsd jails
+* 21.07.2015: --- --- --- initial version --- --- ---
 
