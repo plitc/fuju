@@ -136,17 +136,18 @@ fi
 
 #/ deploying subscripts
 jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % cp -f "$ADIR"/fuju.sh %/root
+jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % chown root:wheel %/root/fuju.sh
 jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % chmod 0755 %/root/fuju.sh
 
 CHECKEXCLUDECONF=$(grep -c "" "$ADIR"/exclude.conf)
 if [ "$CHECKEXCLUDECONF" = "0" ]; then
    echo "--- --- ---"
-   jls | awk '{print $4}' | egrep -v "Hostname" | sed 's/.*\///' | xargs -L1 -I % echo "%"
+   jls | awk '{print $4}' | egrep -v "Hostname" | sed 's/.*\///' | xargs -L1 -I % screen -d -m -S "%" -- /usr/local/bin/ezjail-admin console -e "/root/fuju.sh jail-upgrade" "%"
    echo "--- --- ---"
 else
    GETEXCLUDECONF=$(cat "$ADIR"/exclude.conf)
    echo "--- --- ---"
-   jls | awk '{print $4}' | egrep -v "Hostname" | egrep -v "$GETEXCLUDECONF" | sed 's/.*\///' | xargs -L1 -I % echo "%"
+   jls | awk '{print $4}' | egrep -v "Hostname" | egrep -v "$GETEXCLUDECONF" | sed 's/.*\///' | xargs -L1 -I % screen -d -m -S "%" -- /usr/local/bin/ezjail-admin console -e "/root/fuju.sh jail-upgrade" "%"
    echo "--- --- ---"
 fi
 
