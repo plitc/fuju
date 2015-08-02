@@ -79,7 +79,8 @@ FreeBSD)
 ### // stage2 ###
 
 ### stage3 // ###
-if [ "$MYNAME" = "root" ]; then
+if [ "$MYNAME" = "root" ]
+then
    : # dummy
 else
    : # dummy
@@ -87,7 +88,8 @@ else
    echo "[ERROR] You must be root to run this script"
    exit 1
 fi
-if [ "$JAILED" = "0" ]; then
+if [ "$JAILED" = "0" ]
+then
    : # dummy
 else
    : # dummy
@@ -99,7 +101,8 @@ fi
 #
 ### ### ### ### ### ### ### ### ###
 
-if [ "$FREENAS" = "1" ]; then
+if [ "$FREENAS" = "1" ]
+then
    : # dummy
    : # dummy
    echo "[ERROR] freebsd Option isn't for FreeNAS"
@@ -109,7 +112,8 @@ else
 fi
 
 CHECKPKGSCREEN=$(pkg info | grep -c "screen-")
-if [ "$CHECKPKGSCREEN" = "0" ]; then
+if [ "$CHECKPKGSCREEN" = "0" ]
+then
    : # dummy
    : # dummy
    echo "[ERROR] You need sysutils/screen"
@@ -118,14 +122,16 @@ fi
 
 #/ jail portsnap update
 EZJAIL=$(/usr/sbin/pkg info | grep -c "ezjail")
-if [ "$EZJAIL" = "1" ]; then
+if [ "$EZJAIL" = "1" ]
+then
    #// need non-interactive
    (screen -d -m -S PORTUPDATE -- /bin/sh -c '/usr/local/bin/ezjail-admin update -P') & spinner $!
    #// waiting
    (while true; do if [ "$(screen -list | grep -c "PORTUPDATE")" = "1" ]; then sleep 1; else exit 0; fi; done) & spinner $!
 else
    #// check freenas os
-   if [ "$FREENAS" = "1" ]; then
+   if [ "$FREENAS" = "1" ]
+   then
       : # dummy
    else
       : # dummy
@@ -140,7 +146,8 @@ jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % chown root:wheel %
 jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % chmod 0755 %/root/fuju.sh
 
 CHECKEXCLUDECONF=$(grep -c "" "$ADIR"/exclude.conf)
-if [ "$CHECKEXCLUDECONF" = "0" ]; then
+if [ "$CHECKEXCLUDECONF" = "0" ]
+then
    #/ echo "--- --- ---"
    jls | awk '{print $4}' | egrep -v "Hostname" | sed 's/.*\///' | xargs -L1 -I % screen -d -m -S "%" -- /usr/local/bin/ezjail-admin console -e "/root/fuju.sh freebsd-jail" "%"
    #/ echo "--- --- ---"
@@ -186,7 +193,8 @@ FreeBSD)
 ### // stage2 ###
 
 ### stage3 // ###
-if [ "$MYNAME" = "root" ]; then
+if [ "$MYNAME" = "root" ]
+then
    : # dummy
 else
    : # dummy
@@ -194,7 +202,8 @@ else
    echo "[ERROR] You must be root to run this script"
    exit 1
 fi
-if [ "$JAILED" = "0" ]; then
+if [ "$JAILED" = "0" ]
+then
    : # dummy
 else
    : # dummy
@@ -208,13 +217,15 @@ fi
 
 ### FreeNAS // ###
 #
-if [ "$FREENAS" = "1" ]; then
+if [ "$FREENAS" = "1" ]
+then
    : # dummy
    jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % find % -name ".plugins" -o -name "1" -maxdepth 1 | sed 's/\/.plugins//' | sed 's/\/1//' > /tmp/fuju_freenas_exclude.txt
    jls | awk '{print $4}' | egrep -v "Hostname" > /tmp/fuju_freenas_all.txt
    cat /tmp/fuju_freenas_all.txt /tmp/fuju_freenas_exclude.txt | sort | uniq -u > /tmp/fuju_freenas_ready.txt
    POSSIBLEJAILS=$(grep -c "" /tmp/fuju_freenas_ready.txt)
-   if [ "$POSSIBLEJAILS" = "0" ]; then
+   if [ "$POSSIBLEJAILS" = "0" ]
+   then
       echo "[ERROR] can't find ports jails"
       exit 1
    else
@@ -237,6 +248,9 @@ if [ "$FREENAS" = "1" ]; then
       echo "" # dummy
 ### // UPGRADE ###
    fi
+else
+   echo "[ERROR] freenas Option isn't for FreeBSD"
+   exit 1
 fi
 #
 ### // FreeNAS ###
@@ -276,7 +290,8 @@ FreeBSD)
 ### // stage2 ###
 
 ### stage3 // ###
-if [ "$MYNAME" = "root" ]; then
+if [ "$MYNAME" = "root" ]
+then
    : # dummy
 else
    : # dummy
@@ -284,7 +299,8 @@ else
    echo "[ERROR] You must be root to run this script"
    exit 1
 fi
-if [ "$JAILED" = "1" ]; then
+if [ "$JAILED" = "1" ]
+then
    : # dummy
 else
    : # dummy
@@ -296,7 +312,8 @@ fi
 #
 ### ### ### ### ### ### ### ### ###
 
-if [ "$FREENAS" = "1" ]; then
+if [ "$FREENAS" = "1" ]
+then
    : # dummy
    : # dummy
    echo "[ERROR] freebsd-jail Option isn't for FreeNAS"
