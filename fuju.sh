@@ -181,8 +181,10 @@ else
    if [ "$CHECKPKGSSMTP" = "1" ]
    then
       #/ jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % find % -name "FUJU-DIALOG" -maxdepth 1 | sed 's/\/FUJU-DIALOG//' | mail -s "FreeBSD Unattended Jail Upgrades: (partial) finished!" root
-      jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % find % -name "FUJU-DIALOG" -maxdepth 1 | sed 's/\/FUJU-DIALOG//' > /tmp/fuju_mail.txt
-      echo "" >> /tmp/fuju_mail.txt
+      echo "" > /tmp/fuju_mail.txt
+      echo "need manually dialog input:" >> /tmp/fuju_mail.txt
+      jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % find % -name "FUJU-DIALOG" -maxdepth 1 | sed 's/\/FUJU-DIALOG//' >> /tmp/fuju_mail.txt
+      echo "--- --- --- --- --- --- --- --- ---" >> /tmp/fuju_mail.txt
       screen -ls >> /tmp/fuju_mail.txt
       mail -s "FreeBSD Unattended Jail Upgrades: (partial) finished!" root < /tmp/fuju_mail.txt
       rm -f /tmp/fuju_mail.txt
