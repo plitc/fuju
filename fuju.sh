@@ -296,9 +296,33 @@ fi
 #
 ### ### ### ### ### ### ### ### ###
 
-echo "test"
-sleep 30
+if [ "$FREENAS" = "1" ]; then
+   : # dummy
+   : # dummy
+   echo "[ERROR] jail-upgrade Option isn't for FreeNAS"
+   exit 1
+else
+   : # dummy
+fi
 
+CHECKWAITUNG=$(ls -allt / | grep -c "FUJU-WAITING")
+if [ "$CHECKWAITUNG" = "0" ]; then
+   touch /FUJU-WAITUNG
+   echo '< ---- START ---- >'
+   /usr/sbin/pkg version -l "<"
+   /usr/bin/logger "prepare FreeBSD Unattended Jail Upgrades for $(/usr/sbin/pkg version -l "<" | awk '{print $1}')"
+   echo '< ---- ---- ---- >'
+   /usr/local/sbin/portupgrade -a
+   if [ $? -eq 0 ]
+      /usr/bin/logger "FreeBSD Unattended Jail Upgrades finished"
+      rm -f /FUJU-WAITUNG
+   else
+      /usr/bin/logger "unexpected FreeBSD Unattended Jail Upgrades ERROR! (please run portupgrade -a manually and remove /FUJU-WAITUNG)"
+   fi
+   echo '< ---- END ---- >'
+else
+   : # dummy
+fi
 
 ### ### ### ### ### ### ### ### ###
 #/ cleanup
