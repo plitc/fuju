@@ -330,20 +330,20 @@ then
    touch /FUJU-WAITING
    echo '< ---- START ---- >'
    /usr/sbin/pkg version -l "<"
-   /usr/bin/logger "prepare FreeBSD Unattended Jail Upgrades for $(/usr/sbin/pkg version -l "<" | awk '{print $1}')"
+   /usr/bin/logger "FreeBSD Unattended Jail Upgrades: prepare for $(/usr/sbin/pkg version -l "<" | awk '{print $1}')"
    echo '< ---- ---- ---- >'
    /usr/local/sbin/portupgrade -a
    if [ $? -eq 0 ]
    then
-       /usr/bin/logger "FreeBSD Unattended Jail Upgrades finished"
+       /usr/bin/logger "FreeBSD Unattended Jail Upgrades: finished"
       rm -f /FUJU-WAITING
    else
-      /usr/bin/logger "[ERROR] unexpected FreeBSD Unattended Jail Upgrades error (please run portupgrade -a manually and remove /FUJU-WAITING)"
+      /usr/bin/logger "[ERROR] FreeBSD Unattended Jail Upgrades: unexpected error (please run portupgrade -a manually and remove the lock file /FUJU-WAITING)"
    fi
    echo '< ---- END ---- >'
 else
-   /usr/bin/logger "[ERROR] FreeBSD Unattended Jail Upgrades always running"
-   echo "[ERROR] FreeBSD Unattended Jail Upgrades always running"
+   /usr/bin/logger "[ERROR] FreeBSD Unattended Jail Upgrades: always running"
+   echo "[ERROR] FreeBSD Unattended Jail Upgrades: always running"
    exit 1
 fi
 #
