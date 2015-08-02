@@ -48,7 +48,7 @@ Features
        * write logger info
 
 * exclude.conf
-   * ignores the listed jails
+   * ignores the listed freebsd jails
 
 usage:
 ```
