@@ -305,6 +305,8 @@ else
    : # dummy
 fi
 
+### JAIL-UPGRADE // ###
+#
 CHECKWAITUNG=$(ls -allt / | grep -c "FUJU-WAITING")
 if [ "$CHECKWAITUNG" = "0" ]
 then
@@ -325,6 +327,10 @@ then
 else
    : # dummy
 fi
+#
+### JAIL-UPGRADE // ###
+
+
 
 ### ### ### ### ### ### ### ### ###
 #/ cleanup

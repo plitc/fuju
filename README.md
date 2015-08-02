@@ -31,6 +31,7 @@ Features
 ========
 * configure
    * ezjail-admin update -P (FreeBSD)
+   * deploying subscripts (FreeBSD)
 
 * update
    * pkg upgrade (FreeNAS)
@@ -38,9 +39,18 @@ Features
    * create zfs snapshots before jail upgrading (FreeNAS)
 
 * jail-upgrade
+       * execute pkg version -l (FreeBSD)
+       * execute portupgrade -a (FreeBSD)
+       * write logger info (FreeBSD)
+
+* exclude.conf
+   * ignores the listed jails
 
 usage:
 ```
+   on FreeBSD: ./fuju.sh configure
+
+   on FreeNAS: ./fuju.sh update
 ```
 
 Platform
