@@ -328,7 +328,7 @@ CHECKLOCKFILE=$(ls -allt / | grep -c "FUJU-LOCKED")
 if [ "$CHECKLOCKFILE" = "0" ]
 then
    CHECKCARPJAIL=$(/sbin/ifconfig | grep -c "carp")
-   if [ "$CHECKCARPJAIL" = "0"]
+   if [ "$CHECKCARPJAIL" = "0" ]
    then
       #/ non-carp jail
       touch /FUJU-LOCKED
