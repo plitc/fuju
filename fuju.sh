@@ -417,7 +417,7 @@ then
       echo '< ---- START ---- >'
       /usr/sbin/pkg version -l "<"
       #/ /usr/bin/logger "FreeBSD Unattended Jail Upgrades: prepare for $(/usr/sbin/pkg version -l "<" | awk '{print $1}')"
-      /usr/bin/logger "FreeBSD Unattended Jail Upgrades: prepare for $(if [ -z "$(/usr/sbin/pkg version -l "<" | awk '{print $1}')" ]; then echo "nothing"; else echo "$(/usr/sbin/pkg version -l "<" | awk '{print $1}')"; fi)"
+      /usr/bin/logger "FreeBSD Unattended Jail Upgrades: prepare for $(if [ -z "$(/usr/sbin/pkg version -l "<" | awk '{print $1}')" ]; then echo "nothing"; exit 0; else echo "$(/usr/sbin/pkg version -l "<" | awk '{print $1}')"; fi)"
       echo '< ---- ---- ---- >'
       /usr/local/sbin/portupgrade -a
       if [ $? -eq 0 ]
@@ -432,7 +432,7 @@ then
          then
             : # dummy
          else
-            /usr/bin/logger "FreeBSD Unattended Jail Upgrades: restart services"
+            /usr/bin/logger "FreeBSD Unattended Jail Upgrades: restart services - $(echo "$(/usr/sbin/service -e | grep '/usr/local/etc/rc.d' | sed 's/\/usr\/local\/etc\/rc.d\///')")"
             /usr/sbin/service -e | grep '/usr/local/etc/rc.d' | sed 's/\/usr\/local\/etc\/rc.d\///' | xargs -L1 -I % service % restart
          fi
       else
