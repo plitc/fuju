@@ -416,7 +416,6 @@ then
       CHECKUPGRADENECESSARY1=$(/usr/sbin/pkg version -l "<" | grep -c "")
       if [ "$CHECKUPGRADENECESSARY1" = "0" ]
       then
-         : # dummy
          #// no updates necessary
          /usr/bin/logger "FreeBSD Unattended Jail Upgrades: nothing to do"
       else
