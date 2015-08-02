@@ -326,6 +326,8 @@ then
    echo '< ---- END ---- >'
 else
    : # dummy
+   echo "[ERROR] jail-upgrade always running"
+   exit 1
 fi
 #
 ### JAIL-UPGRADE // ###
