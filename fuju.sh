@@ -417,18 +417,18 @@ then
       if [ "$CHECKUPGRADENECESSARY1" = "0" ]
       then
          #// no updates necessary
-         /usr/bin/logger "FreeBSD Unattended Jail Upgrades: nothing to do"
+         /usr/bin/logger "FreeBSD Unattended Jail Upgrades - nothing to do"
       else
          touch /FUJU-LOCKED
          echo '< ---- START ---- >'
          /usr/sbin/pkg version -l "<"
-         #/ /usr/bin/logger "FreeBSD Unattended Jail Upgrades: prepare for $(/usr/sbin/pkg version -l "<" | awk '{print $1}')"
-         /usr/bin/logger "FreeBSD Unattended Jail Upgrades: prepare for $(if [ -z "$(/usr/sbin/pkg version -l "<" | awk '{print $1}')" ]; then echo "nothing"; else echo "$(/usr/sbin/pkg version -l "<" | awk '{print $1}')"; fi)"
+         #/ /usr/bin/logger "FreeBSD Unattended Jail Upgrades - prepare for $(/usr/sbin/pkg version -l "<" | awk '{print $1}')"
+         /usr/bin/logger "FreeBSD Unattended Jail Upgrades - prepare for $(if [ -z "$(/usr/sbin/pkg version -l "<" | awk '{print $1}')" ]; then echo "nothing"; else echo "$(/usr/sbin/pkg version -l "<" | awk '{print $1}')"; fi)"
          echo '< ---- ---- ---- >'
          /usr/local/sbin/portupgrade -a
          if [ $? -eq 0 ]
          then
-            /usr/bin/logger "FreeBSD Unattended Jail Upgrades: finished"
+            /usr/bin/logger "FreeBSD Unattended Jail Upgrades - finished"
             rm -f /FUJU-ERROR
             rm -f /FUJU-LOCKED
             rm -f /FUJU-DIALOG
@@ -438,12 +438,12 @@ then
             then
                : # dummy
             else
-               /usr/bin/logger "FreeBSD Unattended Jail Upgrades: restart services - $(echo "$(/usr/sbin/service -e | grep '/usr/local/etc/rc.d' | sed 's/\/usr\/local\/etc\/rc.d\///')")"
+               /usr/bin/logger "FreeBSD Unattended Jail Upgrades - restart services - $(echo "$(/usr/sbin/service -e | grep '/usr/local/etc/rc.d' | sed 's/\/usr\/local\/etc\/rc.d\///')")"
                /usr/sbin/service -e | grep '/usr/local/etc/rc.d' | sed 's/\/usr\/local\/etc\/rc.d\///' | xargs -L1 -I % service % restart
             fi
          else
             touch /FUJU-ERROR
-            /usr/bin/logger "[ERROR] FreeBSD Unattended Jail Upgrades: unexpected error (please run portupgrade -a manually and remove the lock files /FUJU-LOCKED and may be /FUJU-ERROR)"
+            /usr/bin/logger "[ERROR] FreeBSD Unattended Jail Upgrades - unexpected error (please run portupgrade -a manually and remove the lock files /FUJU-LOCKED and may be /FUJU-ERROR)"
             echo '< ---- END ---- >'
          fi
       fi
@@ -452,7 +452,7 @@ then
       : # dummy
    fi
 else
-   /usr/bin/logger "[ERROR] FreeBSD Unattended Jail Upgrades: always running"
+   /usr/bin/logger "[ERROR] FreeBSD Unattended Jail Upgrades - always running"
    echo "[ERROR] FreeBSD Unattended Jail Upgrades: always running"
    exit 1
 fi
