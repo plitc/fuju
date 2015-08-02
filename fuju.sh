@@ -394,7 +394,7 @@ then
          /usr/bin/logger "FreeBSD Unattended Jail Upgrades: finished"
          rm -f /FUJU-LOCKED
          rm -f /FUJU-DIALOG
-         #/ restart services
+         #// restart services
          /usr/bin/logger "FreeBSD Unattended Jail Upgrades: restart services"
          /usr/sbin/service -e | /usr/bin/grep '/usr/local/etc/rc.d' | sed 's/\/usr\/local\/etc\/rc.d\///' | xargs -L1 -I % service % restart
       else
