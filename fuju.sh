@@ -321,12 +321,12 @@ then
        /usr/bin/logger "FreeBSD Unattended Jail Upgrades finished"
       rm -f /FUJU-WAITING
    else
-      /usr/bin/logger "unexpected FreeBSD Unattended Jail Upgrades ERROR! (please run portupgrade -a manually and remove /FUJU-WAITING)"
+      /usr/bin/logger "[ERROR] unexpected FreeBSD Unattended Jail Upgrades error (please run portupgrade -a manually and remove /FUJU-WAITING)"
    fi
    echo '< ---- END ---- >'
 else
-   : # dummy
-   echo "[ERROR] jail-upgrade always running"
+   /usr/bin/logger "[ERROR] FreeBSD Unattended Jail Upgrades always running"
+   echo "[ERROR] FreeBSD Unattended Jail Upgrades always running"
    exit 1
 fi
 #
