@@ -32,6 +32,8 @@ Features
 * freebsd
    * ezjail-admin update -P
    * deploying subscripts
+   * send email notification (if partial finished and need dialog4ports input inside the screen session)
+      * require [mail/ssmtp](https://www.freshports.org/mail/ssmtp/)
 
 * freenas
    * pkg upgrade

@@ -173,6 +173,12 @@ else
    echo "" # dummy
    screen -ls
    echo "" # dummy
+   #/ send email notification
+   CHECKPKGSSMTP=$(pkg info | grep -c "ssmtp")
+   if [ "$CHECKPKGSSMTP" = "1" ]
+   then
+      jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % find % -name "FUJU-DIALOG" -maxdepth 1 | sed 's/\/FUJU-DIALOG//' | mail -s "FreeBSD Unattended Jail Upgrades: (partial) finished!" root
+   fi
    echo "" # printf
    printf "\033[1;33mFuJu for FreeBSD (partial) finished.\033[0m\n"
 fi
