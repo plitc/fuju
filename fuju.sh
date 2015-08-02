@@ -158,13 +158,34 @@ else
    #/ echo "--- --- ---"
 fi
 
+### check DIALOG // ###
+#
+CHECKWAITING=$(jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % find % -name "FUJU-DIALOG" -maxdepth 1 | sed 's/\/FUJU-DIALOG//' | grep -c "")
+if [ "$CHECKWAITING" = "0" ]
+then
+   echo "" # printf
+   printf "\033[1;31mFuJu for FreeBSD finished.\033[0m\n"
+else
+   echo "" # dummy
+   echo "[WARNING] some jails waiting for manually dialog input"
+   echo "" # dummy
+   jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % find % -name "FUJU-DIALOG" -maxdepth 1 | sed 's/\/FUJU-DIALOG//'
+   echo "" # dummy
+   screen -ls
+   echo "" # dummy
+   echo "" # printf
+   printf "\033[1;33mFuJu for FreeBSD (partial) finished.\033[0m\n"
+fi
+#
+### // check DIALOG ###
+
 
 
 ### ### ### ### ### ### ### ### ###
 #/ cleanup
 ### ### ### ### ### ### ### ### ###
-echo "" # printf
-printf "\033[1;31mFuJu for FreeBSD finished.\033[0m\n"
+#/ echo "" # printf
+#/ printf "\033[1;31mFuJu for FreeBSD finished.\033[0m\n"
 ### ### ### ### ### ### ### ### ###
 #
 ### // stage4 ###
@@ -322,6 +343,19 @@ else
    : # dummy
 fi
 
+### check DIALOG // ###
+#
+CHECKDIALOG4PORTS=$(ps -ax | grep "/usr/local/bin/dialog4ports" | egrep -cv "grep")
+if [ "$CHECKDIALOG4PORTS" = "0" ]
+then
+   : # dummy
+else
+   touch /FUJU-DIALOG
+   #/ exit 1
+fi
+#
+### // check DIALOG ###
+
 ### JAIL-UPGRADE // ###
 #
 CHECKLOCKFILE=$(ls -allt / | grep -c "FUJU-LOCKED")
@@ -342,6 +376,7 @@ then
       then
          /usr/bin/logger "FreeBSD Unattended Jail Upgrades: finished"
          rm -f /FUJU-LOCKED
+         rm -f /FUJU-DIALOG
       else
          /usr/bin/logger "[ERROR] FreeBSD Unattended Jail Upgrades: unexpected error (please run portupgrade -a manually and remove the lock file /FUJU-LOCKED)"
       fi
@@ -356,7 +391,7 @@ else
    exit 1
 fi
 #
-### JAIL-UPGRADE // ###
+### // JAIL-UPGRADE ###
 
 
 
