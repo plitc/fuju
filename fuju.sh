@@ -140,6 +140,9 @@ else
    fi
 fi
 
+#/ break
+sleep 2
+
 #/ deploying subscripts
 jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % cp -f "$ADIR"/fuju.sh %/root
 jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % chown root:wheel %/root/fuju.sh
