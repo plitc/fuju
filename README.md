@@ -30,14 +30,15 @@ Dependencies
 Features
 ========
 * freebsd
-   * ezjail-admin update -P
+   * ezjail-admin update -P (Ports)
+   * portupgrade (Self-Contained Application Packaging)
    * deploying subscripts
    * send email notification
       * (if partial finished and need dialog4ports input inside the screen session)
       * require [mail/ssmtp](https://www.freshports.org/mail/ssmtp/) Package
 
 * freenas
-   * pkg upgrade
+   * pkg upgrade (binary)
    * avoid VirtualBox / Plugin Jails
    * create zfs snapshots before jail upgrading
 
