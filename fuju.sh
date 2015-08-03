@@ -409,6 +409,7 @@ fi
 CHECKLOCKFILE=$(ls -allt / | grep -c "FUJU-LOCKED")
 if [ "$CHECKLOCKFILE" = "0" ]
 then
+### ### ### non-carp jail // ### ### ###
    CHECKCARPJAIL=$(/sbin/ifconfig | grep -c "carp")
    if [ "$CHECKCARPJAIL" = "0" ]
    then
@@ -451,6 +452,73 @@ then
       #/ carp jail
       : # dummy
    fi
+### ### ### // non-carp jail ### ### ###
+#
+### ### ### carp jail (backup) // ### ### ###
+   CHECKCARPJAIL=$(/sbin/ifconfig | grep -c "carp")
+   if [ "$CHECKCARPJAIL" = "0" ]
+   then
+      : # dummy
+   else
+      #// carp jail (backup)
+      CHECKCARPJAILBACKUP=$(/sbin/ifconfig | grep "carp" | grep -c "BACKUP")
+      if [ "$CHECKCARPJAILBACKUP" = "0" ]
+      then
+         : # dummy
+      else
+         CHECKUPGRADENECESSARY2=$(/usr/sbin/pkg version -l "<" | grep -c "")
+         if [ "$CHECKUPGRADENECESSARY2" = "0" ]
+         then
+            #// no updates necessary
+            /usr/bin/logger "FreeBSD Unattended Jail Upgrades - nothing to do"
+         else
+            touch /FUJU-CARPBACKUP
+            touch /FUJU-LOCKED
+            echo '< ---- START ---- >'
+            /usr/sbin/pkg version -l "<"
+            /usr/bin/logger "FreeBSD Unattended Jail Upgrades - prepare for $(if [ -z "$(/usr/sbin/pkg version -l "<" | awk '{print $1}')" ]; then echo "nothing"; else echo "$(/usr/sbin/pkg version -l "<" | awk '{print $1}')"; fi)"
+            echo '< ---- ---- ---- >'
+            /usr/bin/logger "FreeBSD Unattended Jail Upgrades - fetch packages only"
+            /usr/local/sbin/portupgrade -aF
+            echo '< ---- ---- ---- >'
+            /usr/bin/logger "FreeBSD Unattended Jail Upgrades - shutdown (carp) interface"
+            /sbin/ifconfig | awk '{print $1}' | grep "epair" | sed 's/://' | xargs -L1 -I % ifconfig % down
+            echo '< ---- ---- ---- >'
+            /usr/bin/logger "FreeBSD Unattended Jail Upgrades - package upgrade"
+            /usr/local/sbin/portupgrade -a
+            if [ $? -eq 0 ]
+            then
+               rm -f /FUJU-ERROR
+               rm -f /FUJU-LOCKED
+               rm -f /FUJU-DIALOG
+               rm -f /FUJU-CARPBACKUP
+               #// restart jail services
+               CHECKJAILSERVICES=$(/usr/sbin/service -e | grep '/usr/local/etc/rc.d' | sed 's/\/usr\/local\/etc\/rc.d\///' | grep -c "")
+               if [ "$CHECKJAILSERVICES" = "0" ]
+               then
+                  : # dummy
+               else
+                  /usr/bin/logger "FreeBSD Unattended Jail Upgrades - restart services - $(echo "$(/usr/sbin/service -e | grep '/usr/local/etc/rc.d' | sed 's/\/usr\/local\/etc\/rc.d\///')")"
+                  /usr/sbin/service -e | grep '/usr/local/etc/rc.d' | sed 's/\/usr\/local\/etc\/rc.d\///' | xargs -L1 -I % service % restart
+               fi
+               echo '< ---- ---- ---- >'
+               /usr/bin/logger "FreeBSD Unattended Jail Upgrades - start (carp) interface"
+               /sbin/ifconfig | awk '{print $1}' | grep "epair" | sed 's/://' | xargs -L1 -I % ifconfig % up
+               echo '< ---- ---- ---- >'
+               /usr/bin/logger "FreeBSD Unattended Jail Upgrades - finished"
+            else
+               echo '< ---- ---- ---- >'
+               /usr/bin/logger "FreeBSD Unattended Jail Upgrades - start (carp) interface"
+               /sbin/ifconfig | awk '{print $1}' | grep "epair" | sed 's/://' | xargs -L1 -I % ifconfig % up
+               echo '< ---- ---- ---- >'
+               touch /FUJU-ERROR
+               /usr/bin/logger "[ERROR] FreeBSD Unattended Jail Upgrades - unexpected error (please run portupgrade -a manually and remove the lock files /FUJU-LOCKED and may be /FUJU-ERROR)"
+               echo '< ---- END ---- >'
+            fi
+         fi
+      fi
+   fi
+### ### ### // carp jail (backup) ### ### ###
 else
    /usr/bin/logger "[ERROR] FreeBSD Unattended Jail Upgrades - always running"
    echo "[ERROR] FreeBSD Unattended Jail Upgrades: always running"

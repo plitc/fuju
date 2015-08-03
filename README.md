@@ -36,6 +36,7 @@ Features
    * send email notification
       * (if partial finished and need dialog4ports input inside the screen session)
       * require [mail/ssmtp](https://www.freshports.org/mail/ssmtp/) Package
+   * support for carp jails (BACKUP mode only)
 
 * freenas
    * pkg upgrade (binary)
@@ -113,7 +114,7 @@ Errata
 
 TODO
 ====
-* 02.08.2015: carp jail support for freebsd jails
+* 02.08.2015: carp jail support for freebsd jails [partial support > Version 0.3.4.5.7]
 * 02.08.2015: zfs snapshot support for freebsd jails
 * 21.07.2015: --- --- --- initial version --- --- ---
 
