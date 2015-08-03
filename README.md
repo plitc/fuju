@@ -83,7 +83,7 @@ Example
    vi /etc/crontab
 
    ### github.com/plitc/fuju // ###
-   00      6       *       *       *       root    /github/fuju/fuju.sh freebsd > /var/log/fuju.log
+   00      6       *       *       *       root    /bin/sh -c 'cd /github/fuju; /github/fuju/fuju.sh freebsd > /var/log/fuju.log'
    ### // github.com/plitc/fuju ###
 
    service cron restart
