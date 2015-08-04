@@ -38,7 +38,7 @@ MYNAME=$(whoami)
 DATE=$(date +%Y%m%d-%H%M)
 #
 PRG="$0"
-##/ need this for relative symlinks
+#// need this for relative symlinks
 while [ -h "$PRG" ] ;
 do
    PRG=$(readlink "$PRG")
@@ -47,7 +47,7 @@ DIR=$(dirname "$PRG")
 #
 ADIR="$PWD"
 #
-#/ spinner
+#// spinner
 spinner()
 {
    local pid=$1
@@ -63,7 +63,7 @@ spinner()
    printf "    \b\b\b\b"
 }
 #
-#/ function cleanup tmp
+#// function cleanup tmp
 cleanup(){
    rm -rf /tmp/fuju_freenas*
 }
@@ -120,7 +120,7 @@ then
    exit 1
 fi
 
-#/ jail portsnap update
+#// jail portsnap update
 EZJAIL=$(/usr/sbin/pkg info | grep -c "ezjail")
 if [ "$EZJAIL" = "1" ]
 then
@@ -140,10 +140,10 @@ else
    fi
 fi
 
-#/ break
+#// break
 sleep 2
 
-#/ deploying subscripts
+#// deploying subscripts
 jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % cp -f "$ADIR"/fuju.sh %/root
 jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % chown root:wheel %/root/fuju.sh
 jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % chmod 0755 %/root/fuju.sh
@@ -176,7 +176,7 @@ else
    echo "" # dummy
    screen -ls
    echo "" # dummy
-   #/ send email notification
+   #// send email notification
    CHECKPKGSSMTP1=$(pkg info | grep -c "ssmtp")
    if [ "$CHECKPKGSSMTP1" = "1" ]
    then
@@ -208,7 +208,7 @@ else
    echo "" # dummy
    jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % find % -name "FUJU-ERROR" -maxdepth 1 | sed 's/\/FUJU-ERROR//'
    echo "" # dummy
-   #/ send email notification on error
+   #// send email notification on error
    CHECKPKGSSMTP2=$(pkg info | grep -c "ssmtp")
    if [ "$CHECKPKGSSMTP2" = "1" ]
    then
@@ -415,7 +415,7 @@ then
    CHECKCARPJAIL=$(/sbin/ifconfig | grep -c "carp")
    if [ "$CHECKCARPJAIL" = "0" ]
    then
-      #/ non-carp jail
+      #// non-carp jail
       CHECKUPGRADENECESSARY1=$(/usr/sbin/pkg version -l "<" | grep -c "")
       if [ "$CHECKUPGRADENECESSARY1" = "0" ]
       then
@@ -431,7 +431,6 @@ then
             /usr/sbin/pkg audit -F
             /usr/sbin/pkg update
          fi
-         #/ /usr/bin/logger "FreeBSD Unattended Jail Upgrades - prepare for $(/usr/sbin/pkg version -l "<" | awk '{print $1}')"
          /usr/bin/logger "FreeBSD Unattended Jail Upgrades - prepare for $(if [ -z "$(/usr/sbin/pkg version -l "<" | awk '{print $1}')" ]; then echo "nothing"; else echo "$(/usr/sbin/pkg version -l "<" | awk '{print $1}')"; fi)"
          echo '< ---- ---- ---- >'
          if [ "$CHECKPKGBINARYJAIL" = "0" ]
@@ -462,7 +461,7 @@ then
          fi
       fi
    else
-      #/ carp jail
+      #// carp jail
       : # dummy
    fi
    ### ### ### // non-carp jail ### ### ###
