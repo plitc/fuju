@@ -89,12 +89,40 @@ Example
    service cron restart
 ```
 
+
 * cronjob (FreeNAS)
 ```
    vi /etc/crontab
 
    ### github.com/plitc/fuju // ###
    00      6       *       *       *       root    /github/fuju/fuju.sh freenas > /var/log/fuju.log
+   ### // github.com/plitc/fuju ###
+
+   service cron restart
+```
+
+
+* cronjob for carp jails (FreeBSD)
+   * Jail 1 (Master)
+```
+   vi /etc/crontab
+
+   ### github.com/plitc/fuju // ###
+   #// CARP Jail 1 (force BACKUP Mode on Sunday,Monday,Wednesday,Friday)
+   55      5       *       *       0,1,3,5 root    /bin/sh -c '/sbin/ifconfig epair106a down; sleep 1; /sbin/ifconfig epair106a up'
+   #
+   ### // github.com/plitc/fuju ###
+
+   service cron restart
+```
+   * Jail 2 (Backup)
+```
+   vi /etc/crontab
+
+   ### github.com/plitc/fuju // ###
+   #// CARP Jail 2 (force BACKUP Mode on Tuesday,Thursday,Saturday)
+   55      5       *       *       2,4,6   root    /bin/sh -c '/sbin/ifconfig epair107a down; sleep 1; /sbin/ifconfig epair107a up'
+   #
    ### // github.com/plitc/fuju ###
 
    service cron restart
