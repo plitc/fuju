@@ -41,11 +41,11 @@ Features
    * deploying subscripts
    * send email notification
       * (if partial finished and need dialog4ports input inside the screen session)
-      * require [mail/ssmtp](https://www.freshports.org/mail/ssmtp/) Package
+      * require [mail/ssmtp](https://www.freshports.org/mail/ssmtp/) package
    * support for carp jails (BACKUP mode only)
 
 * freenas
-   * pkg upgrade (binary)
+   * pkg upgrade (binary) only
    * avoid VirtualBox / Plugin Jails
    * create zfs snapshots before jail upgrading
 
