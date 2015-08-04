@@ -46,13 +46,13 @@ Features
    * support for carp jails (BACKUP mode only)
 
 * freenas
-   * pkg upgrade (binary) only
+   * pkg binary (upgrade) only
    * avoid VirtualBox / Plugin Jails
    * create zfs snapshots before jail upgrading
 
 * freebsd-jail
-       * execute pkg version -l
-       * execute portupgrade -a
+       * execute pkg version / pkg audit -F
+       * execute pkg update / pkg upgrade or portupgrade
        * write logger info
 
 * exclude.conf
