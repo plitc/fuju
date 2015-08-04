@@ -101,7 +101,8 @@ Example
    service cron restart
 ```
 
-
+Example (CARP Jails)
+=======
 * cronjob for carp jails (FreeBSD)
    * Jail 1 (Master)
 ```
@@ -115,6 +116,7 @@ Example
 
    service cron restart
 ```
+* cronjob for carp jails (FreeBSD)
    * Jail 2 (Backup)
 ```
    vi /etc/crontab
