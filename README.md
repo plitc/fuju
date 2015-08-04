@@ -31,10 +31,11 @@ Features
 ========
 * freebsd
    * pkg binary support
-      * ( if you want to use pkg binary updates? create a FUJU-PKGBINARY-JAIL file inside the jail)
+      * ( if you want to use pkg binary updates? create a "FUJU-PKGBINARY-JAIL" dummy file inside the jail)
 ```
    touch /FUJU-PKGBINARY-JAIL
 ```
+* freebsd
    * ports support
       * update (ezjail-admin update -P)
       * portupgrade (self-contained application packaging)
