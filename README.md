@@ -30,8 +30,14 @@ Dependencies
 Features
 ========
 * freebsd
-   * ezjail-admin update -P (Ports)
-   * portupgrade (Self-Contained Application Packaging)
+   * pkg binary support
+     ( if you want to use pkg binary updates? create a FUJU-PKGBINARY-JAIL file inside the jail)
+```
+   touch /FUJU-PKGBINARY-JAIL
+```
+   * ports support
+      * update (ezjail-admin update -P)
+      * portupgrade (self-contained application packaging)
    * deploying subscripts
    * send email notification
       * (if partial finished and need dialog4ports input inside the screen session)

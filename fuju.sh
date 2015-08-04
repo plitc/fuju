@@ -406,10 +406,12 @@ fi
 
 ### JAIL-UPGRADE // ###
 #
+CHECKPKGBINARYJAIL=$(ls -allt / | grep -c "FUJU-PKGBINARY-JAIL")
+#
 CHECKLOCKFILE=$(ls -allt / | grep -c "FUJU-LOCKED")
 if [ "$CHECKLOCKFILE" = "0" ]
 then
-### ### ### non-carp jail // ### ### ###
+   ### ### ### non-carp jail // ### ### ###
    CHECKCARPJAIL=$(/sbin/ifconfig | grep -c "carp")
    if [ "$CHECKCARPJAIL" = "0" ]
    then
@@ -422,11 +424,22 @@ then
       else
          touch /FUJU-LOCKED
          echo '< ---- START ---- >'
-         /usr/sbin/pkg version -l "<"
+         if [ "$CHECKPKGBINARYJAIL" = "0" ]
+         then
+            /usr/sbin/pkg version -l "<"
+         else
+            /usr/sbin/pkg audit -F
+            /usr/sbin/pkg update
+         fi
          #/ /usr/bin/logger "FreeBSD Unattended Jail Upgrades - prepare for $(/usr/sbin/pkg version -l "<" | awk '{print $1}')"
          /usr/bin/logger "FreeBSD Unattended Jail Upgrades - prepare for $(if [ -z "$(/usr/sbin/pkg version -l "<" | awk '{print $1}')" ]; then echo "nothing"; else echo "$(/usr/sbin/pkg version -l "<" | awk '{print $1}')"; fi)"
          echo '< ---- ---- ---- >'
-         /usr/local/sbin/portupgrade -a
+         if [ "$CHECKPKGBINARYJAIL" = "0" ]
+         then
+            /usr/local/sbin/portupgrade -a
+         else
+            /usr/sbin/pkg upgrade -y
+         fi
          if [ $? -eq 0 ]
          then
             /usr/bin/logger "FreeBSD Unattended Jail Upgrades - finished"
@@ -452,9 +465,9 @@ then
       #/ carp jail
       : # dummy
    fi
-### ### ### // non-carp jail ### ### ###
-#
-### ### ### carp jail (backup) // ### ### ###
+   ### ### ### // non-carp jail ### ### ###
+   #
+   ### ### ### carp jail (backup) // ### ### ###
    CHECKCARPJAIL=$(/sbin/ifconfig | grep -c "carp")
    if [ "$CHECKCARPJAIL" = "0" ]
    then
@@ -475,17 +488,33 @@ then
             touch /FUJU-CARPBACKUP
             touch /FUJU-LOCKED
             echo '< ---- START ---- >'
-            /usr/sbin/pkg version -l "<"
+            if [ "$CHECKPKGBINARYJAIL" = "0" ]
+            then
+               /usr/sbin/pkg version -l "<"
+            else
+               /usr/sbin/pkg audit -F
+               /usr/sbin/pkg update
+            fi
             /usr/bin/logger "FreeBSD Unattended Jail Upgrades - prepare for $(if [ -z "$(/usr/sbin/pkg version -l "<" | awk '{print $1}')" ]; then echo "nothing"; else echo "$(/usr/sbin/pkg version -l "<" | awk '{print $1}')"; fi)"
             echo '< ---- ---- ---- >'
             /usr/bin/logger "FreeBSD Unattended Jail Upgrades - fetch packages only"
-            /usr/local/sbin/portupgrade -aF
+            if [ "$CHECKPKGBINARYJAIL" = "0" ]
+            then
+               /usr/local/sbin/portupgrade -aF
+            else
+               /usr/sbin/pkg fetch --available-updates -y
+            fi
             echo '< ---- ---- ---- >'
             /usr/bin/logger "FreeBSD Unattended Jail Upgrades - shutdown (carp) interface"
             /sbin/ifconfig | awk '{print $1}' | grep "epair" | sed 's/://' | xargs -L1 -I % ifconfig % down
             echo '< ---- ---- ---- >'
             /usr/bin/logger "FreeBSD Unattended Jail Upgrades - package upgrade"
-            /usr/local/sbin/portupgrade -a
+            if [ "$CHECKPKGBINARYJAIL" = "0" ]
+            then
+               /usr/local/sbin/portupgrade -a
+            else
+               /usr/sbin/pkg upgrade -y
+            fi
             if [ $? -eq 0 ]
             then
                rm -f /FUJU-ERROR
@@ -518,7 +547,7 @@ then
          fi
       fi
    fi
-### ### ### // carp jail (backup) ### ### ###
+   ### ### ### // carp jail (backup) ### ### ###
 else
    /usr/bin/logger "[ERROR] FreeBSD Unattended Jail Upgrades - always running"
    echo "[ERROR] FreeBSD Unattended Jail Upgrades: always running"
