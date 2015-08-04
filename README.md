@@ -29,17 +29,17 @@ Dependencies
 
 Features
 ========
-* freebsd
+* freebsd [Using pkg for Binary Package Management](https://www.freebsd.org/doc/handbook/pkgng-intro.html)
    * pkg binary support
       * ( if you want to use pkg binary updates? create a "FUJU-PKGBINARY-JAIL" dummy file inside the jail)
 ```
    touch /FUJU-PKGBINARY-JAIL
 ```
-* freebsd
+* freebsd [Using the Ports Collection](https://www.freebsd.org/doc/handbook/ports-using.html)
    * ports support
       * update (ezjail-admin update -P)
-      * portupgrade (self-contained application packaging)
-   * deploying subscripts
+      * portupgrade (Upgrading Ports Using Portupgrade)
+   * deploying jail subscripts
    * send email notification
       * (if partial finished and need dialog4ports input inside the screen session)
       * require [mail/ssmtp](https://www.freshports.org/mail/ssmtp/) package
