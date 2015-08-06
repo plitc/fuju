@@ -311,10 +311,10 @@ then
 
       ### UPGRADE // ###
       echo "" # dummy
-      (cat /tmp/fuju_freenas_run.txt | xargs -L1 -I % jexec % /bin/sh -c '/bin/hostname; /bin/echo "--- START ---"; /usr/sbin/pkg update; /bin/echo "--- END ---"; /bin/echo ""') & spinner $!
+      (cat /tmp/fuju_freenas_run.txt | xargs -L1 -I % jexec % /bin/sh -c '/bin/hostname; /bin/echo "--- START ---"; /usr/sbin/pkg update; $(if [ -z "$(/usr/sbin/pkg version -l "<" | awk "{print $1}")" ]; then exit 0; else /usr/sbin/pkg upgrade -y; fi); /bin/echo "--- END ---"; /bin/echo ""') & spinner $!
       echo "" # dummy
-      (cat /tmp/fuju_freenas_run.txt | xargs -L1 -I % jexec % /bin/sh -c '/bin/hostname; /bin/echo "--- START ---"; /usr/sbin/pkg upgrade -y; /bin/echo "--- END ---"; /bin/echo ""') & spinner $!
-      echo "" # dummy
+      #/ (cat /tmp/fuju_freenas_run.txt | xargs -L1 -I % jexec % /bin/sh -c '/bin/hostname; /bin/echo "--- START ---"; /usr/sbin/pkg upgrade -y; /bin/echo "--- END ---"; /bin/echo ""') & spinner $!
+      #/ echo "" # dummy
       ### // UPGRADE ###
 
       ### RESTART SERVICE // ###
