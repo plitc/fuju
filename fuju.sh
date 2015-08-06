@@ -311,16 +311,16 @@ then
 
       ### UPGRADE // ###
       echo "" # dummy
-      (cat /tmp/fuju_freenas_run.txt | xargs -L1 -I % jexec % /bin/sh -c '/bin/hostname; /bin/echo "--- START ---"; /usr/sbin/pkg update; $(if [ -z "$(/usr/sbin/pkg version -l "<" | awk "{print $1}")" ]; then exit 0; else /usr/sbin/pkg upgrade -y; fi); /bin/echo "--- END ---"; /bin/echo ""') & spinner $!
-      echo "" # dummy
+      (cat /tmp/fuju_freenas_run.txt | xargs -L1 -I % jexec % /bin/sh -c '/bin/hostname; /bin/echo "--- START ---"; /usr/sbin/pkg update; $(if [ -z "$(/usr/sbin/pkg version -l "<" | awk "{print $1}")" ]; then exit 0; else /usr/sbin/pkg upgrade -y; cat /etc/rc.conf | egrep -v "sshd" | grep "enable" | egrep -v "NO" | sed "s/_enable=\"YES\"//" | sed "s/_enable=\"yes\"//" | sed "s/_enable=\"Yes\"//" > /tmp/fuju_freenas_services_rcconf.txt; /usr/sbin/service -e | grep "/etc/rc.d" | sed "s/\/etc\/rc.d\///" > /tmp/fuju_freenas_services.txt; cat /tmp/fuju_freenas_services.txt /tmp/fuju_freenas_services_rcconf.txt | sort | uniq -d | xargs -L1 -I {} service {} restart; /bin/rm -f /tmp/fuju_freenas*; fi); /bin/echo "--- END ---"; /bin/echo ""') & spinner $!
+      #/ echo "" # dummy
       #/ (cat /tmp/fuju_freenas_run.txt | xargs -L1 -I % jexec % /bin/sh -c '/bin/hostname; /bin/echo "--- START ---"; /usr/sbin/pkg upgrade -y; /bin/echo "--- END ---"; /bin/echo ""') & spinner $!
       #/ echo "" # dummy
       ### // UPGRADE ###
 
       ### RESTART SERVICE // ###
-      echo "" # dummy
-      (cat /tmp/fuju_freenas_run.txt | xargs -L1 -I % jexec % /bin/sh -c '/bin/hostname; /bin/echo "--- RESTART SERVICE ---"; cat /etc/rc.conf | egrep -v "sshd" | grep "enable" | egrep -v "NO" | sed "s/_enable=\"YES\"//" | sed "s/_enable=\"yes\"//" | sed "s/_enable=\"Yes\"//" > /tmp/fuju_freenas_services_rcconf.txt; /usr/sbin/service -e | grep "/etc/rc.d" | sed "s/\/etc\/rc.d\///" > /tmp/fuju_freenas_services.txt; cat /tmp/fuju_freenas_services.txt /tmp/fuju_freenas_services_rcconf.txt | sort | uniq -d | xargs -L1 -I {} service {} restart; /bin/rm -f /tmp/fuju_freenas*; /bin/echo "--- END ---"; /bin/echo ""') & spinner $!
-      echo "" # dummy
+      #/ echo "" # dummy
+      #/ (cat /tmp/fuju_freenas_run.txt | xargs -L1 -I % jexec % /bin/sh -c '/bin/hostname; /bin/echo "--- RESTART SERVICE ---"; cat /etc/rc.conf | egrep -v "sshd" | grep "enable" | egrep -v "NO" | sed "s/_enable=\"YES\"//" | sed "s/_enable=\"yes\"//" | sed "s/_enable=\"Yes\"//" > /tmp/fuju_freenas_services_rcconf.txt; /usr/sbin/service -e | grep "/etc/rc.d" | sed "s/\/etc\/rc.d\///" > /tmp/fuju_freenas_services.txt; cat /tmp/fuju_freenas_services.txt /tmp/fuju_freenas_services_rcconf.txt | sort | uniq -d | xargs -L1 -I {} service {} restart; /bin/rm -f /tmp/fuju_freenas*; /bin/echo "--- END ---"; /bin/echo ""') & spinner $!
+      #/ echo "" # dummy
       ### // RESTART SERVICE ###
    fi
 else
