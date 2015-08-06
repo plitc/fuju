@@ -316,6 +316,14 @@ then
       (cat /tmp/fuju_freenas_run.txt | xargs -L1 -I % jexec % /bin/sh -c '/bin/hostname; echo "--- START ---"; /usr/sbin/pkg upgrade -y; echo "--- END ---"') & spinner $!
       echo "" # dummy
 ### // UPGRADE ###
+
+### RESTART SERVICES // ###
+      GETRCCONFSERVICES=$(cat /etc/rc.conf | grep "enable" | egrep -v "NO" | sed 's/_enable="YES"//' | sed 's/_enable="yes"//')
+      GETSERVICES=$(/usr/sbin/service -e | grep '/etc/rc.d' | sed 's/\/etc\/rc.d\///')
+      echo "" # dummy
+      "$GETRCCONFSERVICES" "$GETSERVICES" | sort | uniq -d
+      echo "" # dummy
+### // RESTART SERVICES ###
    fi
 else
    echo "[ERROR] freenas Option isn't for FreeBSD"
