@@ -50,6 +50,11 @@ Features
    * avoid VirtualBox / Plugin Jails
    * create zfs snapshots before jail upgrading
    * restart services
+   * support noupdate
+      * ( if you want disable FuJu updates for a freenas jail? create a "FUJU-NOUPDATE" dummy file inside the jail)
+```
+   touch /FUJU-NOUPDATE
+```
 
 * freebsd-jail
        * execute pkg version / pkg audit -F
