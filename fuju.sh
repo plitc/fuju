@@ -319,7 +319,7 @@ then
 
       ### RESTART SERVICE // ###
       echo "" # dummy
-      (cat /tmp/fuju_freenas_run.txt | xargs -L1 -I % jexec % /bin/sh -c '/bin/echo "--- RESTART SERVICE ---"; /bin/hostname; echo "--- --- ---"; cat /etc/rc.conf | egrep -v "sshd" | grep "enable" | egrep -v "NO" | sed "s/_enable=\"YES\"//" | sed "s/_enable=\"yes\"//" | sed "s/_enable=\"Yes\"//" > /tmp/fuju_freenas_services_rcconf.txt; /usr/sbin/service -e | grep "/etc/rc.d" | sed "s/\/etc\/rc.d\///" > /tmp/fuju_freenas_services.txt; cat /tmp/fuju_freenas_services.txt /tmp/fuju_freenas_services_rcconf.txt | sort | uniq -d | xargs -L1 -I {} service {} restart; /bin/rm -f /tmp/fuju_freenas*; /bin/echo "--- END ---"') & spinner $!
+      (cat /tmp/fuju_freenas_run.txt | xargs -L1 -I % jexec % /bin/sh -c '/bin/echo "--- RESTART SERVICE ---"; /bin/hostname; /bin/echo "--- --- ---"; cat /etc/rc.conf | egrep -v "sshd" | grep "enable" | egrep -v "NO" | sed "s/_enable=\"YES\"//" | sed "s/_enable=\"yes\"//" | sed "s/_enable=\"Yes\"//" > /tmp/fuju_freenas_services_rcconf.txt; /usr/sbin/service -e | grep "/etc/rc.d" | sed "s/\/etc\/rc.d\///" > /tmp/fuju_freenas_services.txt; cat /tmp/fuju_freenas_services.txt /tmp/fuju_freenas_services_rcconf.txt | sort | uniq -d | xargs -L1 -I {} service {} restart; /bin/rm -f /tmp/fuju_freenas*; /bin/echo "--- END ---"; /bin/echo ""') & spinner $!
       echo "" # dummy
       ### // RESTART SERVICE ###
    fi
