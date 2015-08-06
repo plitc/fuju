@@ -317,13 +317,14 @@ then
       echo "" # dummy
 ### // UPGRADE ###
 
-### RESTART SERVICES // ###
-      GETRCCONFSERVICES=$(cat /etc/rc.conf | grep "enable" | egrep -v "NO" | sed 's/_enable="YES"//' | sed 's/_enable="yes"//')
-      GETSERVICES=$(/usr/sbin/service -e | grep '/etc/rc.d' | sed 's/\/etc\/rc.d\///')
+### RESTART SERVICE // ###
+      #/ GETRCCONFSERVICES=$(cat /etc/rc.conf | grep "enable" | egrep -v "NO" | sed 's/_enable="YES"//' | sed 's/_enable="yes"//')
+      #/ GETSERVICES=$(/usr/sbin/service -e | grep '/etc/rc.d' | sed 's/\/etc\/rc.d\///')
+      #/ echo "" # dummy
+      #/ "$GETRCCONFSERVICES" "$GETSERVICES" | sort | uniq -d
       echo "" # dummy
-      "$GETRCCONFSERVICES" "$GETSERVICES" | sort | uniq -d
-      echo "" # dummy
-### // RESTART SERVICES ###
+      (cat /tmp/fuju_freenas_run.txt | xargs -L1 -I % jexec % /bin/sh -c '/bin/echo "--- SERVICE RESTART ---"; cat /etc/rc.conf | grep "enable" | egrep -v "NO" | sed 's/_enable="YES"//' | sed 's/_enable="yes"//' > /tmp/fuju_freenas_services_rcconf.txt; /usr/sbin/service -e | grep '/etc/rc.d' | sed 's/\/etc\/rc.d\///' > /tmp/fuju_freenas_services.txt; /bin/echo "--- END ---"') & spinner $!
+### // RESTART SERVICE ###
    fi
 else
    echo "[ERROR] freenas Option isn't for FreeBSD"
