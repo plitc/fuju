@@ -61,7 +61,7 @@ Features
        * execute pkg update / pkg upgrade or portupgrade
        * write logger info
 
-* exclude.conf
+* exclude.conf (freebsd only)
    * ignores the listed freebsd jails
 
 usage:
