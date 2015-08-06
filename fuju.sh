@@ -289,7 +289,7 @@ fi
 if [ "$FREENAS" = "1" ]
 then
    : # dummy
-   jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % find % -name "FUJU-PKGBINARY-JAIL" -o -name ".plugins" -o -name "1" -maxdepth 1 | sed 's/\/FUJU-PKGBINARY-JAIL//' | sed 's/\/.plugins//' | sed 's/\/1//' > /tmp/fuju_freenas_exclude.txt
+   jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % find % -name "FUJU-NOUPDATE" -o -name ".plugins" -o -name "1" -maxdepth 1 | sed 's/\/FUJU-NOUPDATE//' | sed 's/\/.plugins//' | sed 's/\/1//' > /tmp/fuju_freenas_exclude.txt
    jls | awk '{print $4}' | egrep -v "Hostname" > /tmp/fuju_freenas_all.txt
    cat /tmp/fuju_freenas_all.txt /tmp/fuju_freenas_exclude.txt | sort | uniq -u > /tmp/fuju_freenas_ready.txt
    POSSIBLEJAILS=$(grep -c "" /tmp/fuju_freenas_ready.txt)
