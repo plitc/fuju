@@ -49,6 +49,7 @@ Features
    * pkg binary (upgrade) only
    * avoid VirtualBox / Plugin Jails
    * create zfs snapshots before jail upgrading
+   * restart services
 
 * freebsd-jail
        * execute pkg version / pkg audit -F
