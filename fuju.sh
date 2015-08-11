@@ -125,9 +125,11 @@ EZJAIL=$(/usr/sbin/pkg info | grep -c "ezjail")
 if [ "$EZJAIL" = "1" ]
 then
    #// need non-interactive
+   echo "start: ezjail-admin update -P"
    (screen -d -m -S PORTUPDATE -- /bin/sh -c '/usr/local/bin/ezjail-admin update -P') & spinner $!
    #// waiting
    (while true; do if [ "$(screen -list | grep -c "PORTUPDATE")" = "1" ]; then sleep 1; else exit 0; fi; done) & spinner $!
+   echo "finished: ezjail-admin update -P"
 else
    #// check freenas os
    if [ "$FREENAS" = "1" ]
