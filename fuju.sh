@@ -172,7 +172,8 @@ then
    printf "\033[1;31mFuJu for FreeBSD finished.\033[0m\n"
 else
    echo "" # dummy
-   echo "[WARNING] some jails waiting for manually dialog input"
+   #/ echo "[WARNING] some jails waiting for manually dialog input"
+   printf "\033[1;33m[WARNING]\033[0m some jails waiting for manually dialog input \n"
    echo "" # dummy
    jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % find % -name "FUJU-DIALOG" -maxdepth 1 | sed 's/\/FUJU-DIALOG//'
    echo "" # dummy
@@ -206,7 +207,8 @@ then
    : # dummy
 else
    echo "" # dummy
-   echo "[WARNING] some jails got an error in the last upgrade process"
+   #/ echo "[WARNING] some jails got an error in the last upgrade process"
+   printf "\033[1;33m[WARNING]\033[0m some jails got an error in the last upgrade process \n"
    echo "" # dummy
    jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % find % -name "FUJU-ERROR" -maxdepth 1 | sed 's/\/FUJU-ERROR//'
    echo "" # dummy
@@ -218,7 +220,7 @@ else
       echo "" > /tmp/fuju_mail_error.txt
       echo "[ERROR] Jails:" >> /tmp/fuju_mail_error.txt
       echo "" >> /tmp/fuju_mail_error.txt
-      jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % find % -name "FUJU-ERROR" -maxdepth 1 | sed 's/\/FUJU-ERROR//' >> /tmp/    fuju_mail_error.txt
+      jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % find % -name "FUJU-ERROR" -maxdepth 1 | sed 's/\/FUJU-ERROR//' >> /tmp/fuju_mail_error.txt
       echo "--- --- --- --- --- --- --- --- ---" >> /tmp/fuju_mail_error.txt
       echo "" >> /tmp/fuju_mail_error.txt
       echo "unexpected errors (please run portupgrade -a manually and remove the lock files /FUJU-LOCKED and may be /FUJU-ERROR)" >> /tmp/fuju_mail_error.txt
