@@ -143,8 +143,8 @@ else
 fi
 
 #// break
-sleep 2
 echo "deploying and starting subscripts!"
+(sleep 2) & spinner $!
 
 #// deploying subscripts
 jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % cp -f "$ADIR"/fuju.sh %/root
