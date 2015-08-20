@@ -144,9 +144,7 @@ fi
 
 #// break
 sleep 2
-echo "" # dummy
-echo "deploying and starting subscripts"
-echo "" # dummy
+echo "deploying and starting subscripts!"
 
 #// deploying subscripts
 jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % cp -f "$ADIR"/fuju.sh %/root
