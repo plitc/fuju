@@ -61,6 +61,9 @@ Features
        * execute pkg update / pkg upgrade or portupgrade
        * write logger info
 
+* force-freebsd-jail
+       * when the unexpected error has occurred
+
 * exclude.conf (freebsd only)
    * ignores the listed freebsd jails
 
@@ -86,7 +89,7 @@ Usage
 ```
    WARNING: FreeBSD Unattended Jail Upgrades is experimental and its not ready for production. Do it at your own risk.
 
-   # usage: ./fuju.sh { freebsd | freenas | freebsd-jail }
+   # usage: ./fuju.sh { freebsd | freenas | freebsd-jail | force-freebsd-jail }
 ```
 
 Example
