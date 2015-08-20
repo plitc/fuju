@@ -151,6 +151,9 @@ Diagram
 
 Screencast
 ==========
+* fuju [VERSION: FreeBSD Version 0.3.5.6.7 | FreeNAS Version 0.3.2.3 ]
+
+[![github plitc fuju](https://img.youtube.com/vi/j_nQw8LNoZI/0.jpg)](https://www.youtube.com/watch?v=j_nQw8LNoZI)
 
 Errata
 ======
