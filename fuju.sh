@@ -127,7 +127,8 @@ then
    touch /FUJU-LOCKED
 else
    /usr/bin/logger "[ERROR] FreeBSD Unattended Jail Upgrades - always running"
-   echo "[ERROR] FreeBSD Unattended Jail Upgrades: always running"
+   echo "" # dummy
+   echo "[ERROR] FreeBSD Unattended Jail Upgrades: always running (may be remove the HOST lock file /FUJU-LOCKED"
    exit 1
 fi
 
