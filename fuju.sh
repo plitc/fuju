@@ -128,7 +128,7 @@ then
 else
    /usr/bin/logger "[ERROR] FreeBSD Unattended Jail Upgrades - always running"
    echo "" # dummy
-   echo "[ERROR] FreeBSD Unattended Jail Upgrades: always running (may be remove the HOST lock file /FUJU-LOCKED"
+   echo "[ERROR] FreeBSD Unattended Jail Upgrades: always running (remove the HOST lock file /FUJU-LOCKED)"
    exit 1
 fi
 
@@ -136,12 +136,21 @@ fi
 EZJAIL=$(/usr/sbin/pkg info | grep -c "ezjail")
 if [ "$EZJAIL" = "1" ]
 then
-   #// need non-interactive
-   echo "start: ezjail-admin update -P"
-   (screen -d -m -S PORTUPDATE -- /bin/sh -c '/usr/local/bin/ezjail-admin update -P') & spinner $!
-   #// waiting
-   (while true; do if [ "$(screen -list | grep -c "PORTUPDATE")" = "1" ]; then sleep 1; else exit 0; fi; done) & spinner $!
-   echo "finished: ezjail-admin update -P"
+   #// check unfinished jail upgrades
+   CHECKSKIPPORTUPDATE=$(ls -allt / | grep -c "FUJU-SKIPPORTUPDATE")
+   if [ "$CHECKSKIPPORTUPDATE" = "0" ]
+   then
+      #// need non-interactive
+      echo "start: ezjail-admin update -P"
+      (screen -d -m -S PORTUPDATE -- /bin/sh -c '/usr/local/bin/ezjail-admin update -P') & spinner $!
+      #// waiting
+      (while true; do if [ "$(screen -list | grep -c "PORTUPDATE")" = "1" ]; then sleep 1; else exit 0; fi; done) & spinner $!
+      echo "finished: ezjail-admin update -P"
+   else
+      /usr/bin/logger "[WARNING] FreeBSD Unattended Jail Upgrades - skip ezjail-admin update -P"
+      echo "" # dummy
+      echo "[WARNING] FreeBSD Unattended Jail Upgrades - skip ezjail-admin update -P (remove the HOST lock file /FUJU-SKIPPORTUPDATE and finish the broken jail upgrades)"
+   fi
 else
    #// check freenas os
    if [ "$FREENAS" = "1" ]
@@ -182,6 +191,7 @@ CHECKWAITING=$(jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % fin
 if [ "$CHECKWAITING" = "0" ]
 then
    rm -f /FUJU-LOCKED
+   rm -f /FUJU-SKIPPORTUPDATE
    echo "" # printf
    printf "\033[1;31mFuJu for FreeBSD finished.\033[0m\n"
 else
@@ -207,6 +217,7 @@ else
       mail -s "FreeBSD Unattended Jail Upgrades: (partial) finished!" root < /tmp/fuju_mail.txt
       rm -f /tmp/fuju_mail.txt
    fi
+   touch /FUJU-SKIPPORTUPDATE
    echo "" # printf
    printf "\033[1;33mFuJu for FreeBSD (partial) finished.\033[0m\n"
 fi
@@ -220,6 +231,7 @@ if [ "$CHECKJAILERROR" = "0" ]
 then
    : # dummy
 else
+   touch /FUJU-SKIPPORTUPDATE
    echo "" # dummy
    #/ echo "[WARNING] some jails got an error in the last upgrade process"
    printf "\033[1;33m[WARNING]\033[0m some jails got an error in the last upgrade process \n"
