@@ -149,7 +149,9 @@ then
    else
       /usr/bin/logger "[WARNING] FreeBSD Unattended Jail Upgrades - skip ezjail-admin update -P"
       echo "" # dummy
-      echo "[WARNING] FreeBSD Unattended Jail Upgrades - skip ezjail-admin update -P (remove the HOST lock file /FUJU-SKIPPORTUPDATE and finish the broken jail upgrades)"
+      printf "\033[1;33m[WARNING]\033[0m skip ezjail-admin update -P \n"
+      echo "(remove the HOST lock file /FUJU-SKIPPORTUPDATE and finish the broken jail upgrades)"
+      echo "" # dummy
    fi
 else
    #// check freenas os
