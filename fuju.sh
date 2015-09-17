@@ -150,7 +150,8 @@ then
       /usr/bin/logger "[WARNING] FreeBSD Unattended Jail Upgrades - skip ezjail-admin update -P"
       echo "" # dummy
       printf "\033[1;33m[WARNING]\033[0m skip ezjail-admin update -P \n"
-      echo "(remove the HOST lock file /FUJU-SKIPPORTUPDATE and finish the broken jail upgrades)"
+      echo "" # dummy
+      printf "\033[1;31m[RECOMMENDATION]\033[0m remove the HOST lock file /FUJU-SKIPPORTUPDATE and fix the broken jails upgrade with: /root/fuju.sh force-freebsd-jail (inside the jail) \n"
       echo "" # dummy
    fi
 else
