@@ -153,6 +153,7 @@ then
       echo "" # dummy
       #/ printf "\033[1;32m[RECOMMENDATION]\033[0m fix the broken jail upgrade with: /root/fuju.sh force-freebsd-jail (within the affected jail) and remove the HOST lock file /FUJU-SKIPPORTUPDATE \n"
       printf "\033[1;32m[RECOMMENDATION]\033[0m fix the broken jail upgrade with: /root/fuju.sh force-freebsd-jail (within the affected jail) \n"
+      echo "(if nothing is listed next, it was a hoax)"
       echo "" # dummy
    fi
 else
