@@ -151,7 +151,7 @@ then
       echo "" # dummy
       printf "\033[1;33m[WARNING]\033[0m skip ezjail-admin update -P \n"
       echo "" # dummy
-      printf "\033[1;31m[RECOMMENDATION]\033[0m remove the HOST lock file /FUJU-SKIPPORTUPDATE and fix the broken jails upgrade with: /root/fuju.sh force-freebsd-jail (inside the jail) \n"
+      printf "\033[1;32m[RECOMMENDATION]\033[0m remove the HOST lock file /FUJU-SKIPPORTUPDATE and fix the broken jails upgrade with: /root/fuju.sh force-freebsd-jail (inside the jail) \n"
       echo "" # dummy
    fi
 else
