@@ -120,6 +120,17 @@ then
    exit 1
 fi
 
+#// check running
+CHECKLOCKFILE0=$(ls -allt / | grep -c "FUJU-LOCKED")
+if [ "$CHECKLOCKFILE0" = "0" ]
+then
+   touch /FUJU-LOCKED
+else
+   /usr/bin/logger "[ERROR] FreeBSD Unattended Jail Upgrades - always running"
+   echo "[ERROR] FreeBSD Unattended Jail Upgrades: always running"
+   exit 1
+fi
+
 #// jail portsnap update
 EZJAIL=$(/usr/sbin/pkg info | grep -c "ezjail")
 if [ "$EZJAIL" = "1" ]
@@ -169,6 +180,7 @@ fi
 CHECKWAITING=$(jls | awk '{print $4}' | egrep -v "Hostname" | xargs -L1 -I % find % -name "FUJU-DIALOG" -maxdepth 1 | sed 's/\/FUJU-DIALOG//' | grep -c "")
 if [ "$CHECKWAITING" = "0" ]
 then
+   rm -f /FUJU-LOCKED
    echo "" # printf
    printf "\033[1;31mFuJu for FreeBSD finished.\033[0m\n"
 else
@@ -419,8 +431,8 @@ fi
 #
 CHECKPKGBINARYJAIL=$(ls -allt / | grep -c "FUJU-PKGBINARY-JAIL")
 #
-CHECKLOCKFILE=$(ls -allt / | grep -c "FUJU-LOCKED")
-if [ "$CHECKLOCKFILE" = "0" ]
+CHECKLOCKFILE1=$(ls -allt / | grep -c "FUJU-LOCKED")
+if [ "$CHECKLOCKFILE1" = "0" ]
 then
    ### ### ### non-carp jail // ### ### ###
    CHECKCARPJAIL=$(/sbin/ifconfig | grep -c "carp")
@@ -658,8 +670,8 @@ fi
 #
 CHECKPKGBINARYJAIL=$(ls -allt / | grep -c "FUJU-PKGBINARY-JAIL")
 #
-CHECKLOCKFILE=$(ls -allt / | grep -c "FUJU-LOCKED")
-if [ "$CHECKLOCKFILE" = "0" ]
+CHECKLOCKFILE2=$(ls -allt / | grep -c "FUJU-LOCKED")
+if [ "$CHECKLOCKFILE2" = "0" ]
 then
    ### ### ### non-carp jail // ### ### ###
    CHECKCARPJAIL=$(/sbin/ifconfig | grep -c "carp")
