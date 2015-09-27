@@ -494,6 +494,16 @@ then
             else
                /usr/bin/logger "FreeBSD Unattended Jail Upgrades - restart services - $(echo "$(/usr/sbin/service -e | grep '/usr/local/etc/rc.d' | sed 's/\/usr\/local\/etc\/rc.d\///')")"
                /usr/sbin/service -e | grep '/usr/local/etc/rc.d' | sed 's/\/usr\/local\/etc\/rc.d\///' | xargs -L1 -I % service % restart
+               #// fix dependencies
+               #
+               #// ipsec & racoon
+               CHECKRACOONSERVICE=$(/usr/sbin/service -e | grep '/usr/local/etc/rc.d' | sed 's/\/usr\/local\/etc\/rc.d\///' | grep -c "racoon")
+               if [ "$CHECKRACOONSERVICE" = "0" ]
+               then
+                  : # dummy
+               else
+                  service ipsec restart
+               fi
             fi
          else
             touch /FUJU-ERROR
@@ -569,6 +579,16 @@ then
                else
                   /usr/bin/logger "FreeBSD Unattended Jail Upgrades - restart services - $(echo "$(/usr/sbin/service -e | grep '/usr/local/etc/rc.d' | sed 's/\/usr\/local\/etc\/rc.d\///')")"
                   /usr/sbin/service -e | grep '/usr/local/etc/rc.d' | sed 's/\/usr\/local\/etc\/rc.d\///' | xargs -L1 -I % service % restart
+                  #// fix dependencies
+                  #
+                  #// ipsec & racoon
+                  CHECKRACOONSERVICE=$(/usr/sbin/service -e | grep '/usr/local/etc/rc.d' | sed 's/\/usr\/local\/etc\/rc.d\///' | grep -c "racoon")
+                  if [ "$CHECKRACOONSERVICE" = "0" ]
+                  then
+                     : # dummy
+                  else
+                     service ipsec restart
+                  fi
                fi
                echo '< ---- ---- ---- >'
                /usr/bin/logger "FreeBSD Unattended Jail Upgrades - start (carp) interface"
@@ -733,6 +753,16 @@ then
             else
                /usr/bin/logger "FreeBSD Unattended Jail Upgrades - restart services - $(echo "$(/usr/sbin/service -e | grep '/usr/local/etc/rc.d' | sed 's/\/usr\/local\/etc\/rc.d\///')")"
                /usr/sbin/service -e | grep '/usr/local/etc/rc.d' | sed 's/\/usr\/local\/etc\/rc.d\///' | xargs -L1 -I % service % restart
+               #// fix dependencies
+               #
+               #// ipsec & racoon
+               CHECKRACOONSERVICE=$(/usr/sbin/service -e | grep '/usr/local/etc/rc.d' | sed 's/\/usr\/local\/etc\/rc.d\///' | grep -c "racoon")
+               if [ "$CHECKRACOONSERVICE" = "0" ]
+               then
+                  : # dummy
+               else
+                  service ipsec restart
+               fi
             fi
          else
             touch /FUJU-ERROR
@@ -808,6 +838,16 @@ then
                else
                   /usr/bin/logger "FreeBSD Unattended Jail Upgrades - restart services - $(echo "$(/usr/sbin/service -e | grep '/usr/local/etc/rc.d' | sed 's/\/usr\/local\/etc\/rc.d\///')")"
                   /usr/sbin/service -e | grep '/usr/local/etc/rc.d' | sed 's/\/usr\/local\/etc\/rc.d\///' | xargs -L1 -I % service % restart
+                  #// fix dependencies
+                  #
+                  #// ipsec & racoon
+                  CHECKRACOONSERVICE=$(/usr/sbin/service -e | grep '/usr/local/etc/rc.d' | sed 's/\/usr\/local\/etc\/rc.d\///' | grep -c "racoon")
+                  if [ "$CHECKRACOONSERVICE" = "0" ]
+                  then
+                     : # dummy
+                  else
+                     service ipsec restart
+                  fi
                fi
                echo '< ---- ---- ---- >'
                /usr/bin/logger "FreeBSD Unattended Jail Upgrades - start (carp) interface"
